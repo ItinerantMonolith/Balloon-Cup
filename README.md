@@ -7,7 +7,7 @@
 ***
 ### :balloon: Overview :trophy:
 
-[Balloon Cup](https://boardgamegeek.com/boardgame/5716/balloon-cup) is a two-player board game published by KOSMOS games in 2003.   This is my implementation of the game, both because I love the game and though it would be an interesting challenge.   To play the officially licensed online version, visit [yucata.de](https://www.yucata.de/en/GameInfo/BalloonCup).
+[Balloon Cup](https://boardgamegeek.com/boardgame/5716/balloon-cup) is a two-player board game published by KOSMOS games in 2003.   This is my implementation of the game, both because I love the game and thought it would be an interesting challenge.   To play the officially licensed online version, visit [yucata.de](https://www.yucata.de/en/GameInfo/BalloonCup).
 
 > In Balloon Cup, the players compete in several short balloon flights (hops) to collect the colored cubes associated with each hop. 
 > When a player has collected enough cubes of a given color, he earns the trophy card for that color. Players may even trade 3 otherwise 
