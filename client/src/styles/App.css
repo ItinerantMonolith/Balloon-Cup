@@ -1,0 +1,13 @@
+.App {
+    font-family: 'Yeon Sung', cursive;
+}
+
+body {
+    background: url('../assets/hot_air_balloons.png');
+    background-size: cover;
+}
+
+.AppBar {
+    background-color: red;
+    font-family: 'Yeon Sung', cursive;
+}

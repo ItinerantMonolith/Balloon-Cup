@@ -1,0 +1,38 @@
+npx sequelize-cli migration:create --name add_uuid_extension
+
+            'use strict';
+
+            module.exports = {
+            up: async (queryInterface, Sequelize) => {
+                await queryInterface.sequelize.query(
+                    'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+                )
+            },
+
+            down: async (queryInterface, Sequelize) => {
+                await queryInterface.sequelize.query(
+                    'DROP EXTENSION "uuid-ossp";'
+                )
+
+            }
+            };
+
+
+npx sequelize-cli model:generate --name users --attributes id:UUID,name:string,email:string,password:string
+
+npx sequelize-cli model:generate --name games --attributes id:UUID,p1Id:uuid,p2Id:uuid,status:string,winner:integer
+
+npx sequelize-cli model:generate --name game_turns --attributes id:UUID,game_id:uuid,turn:integer,player:integer,playerAction:JSONB,gameAction:JSONB,gameState:JSONB
+
+
+users:
+    hasMany -> games
+
+games:
+    belongsTo -> users (twice)
+    hasMany ->game_turns
+
+
+
+
+NOTE: npm install uuid
