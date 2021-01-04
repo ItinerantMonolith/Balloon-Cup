@@ -38,7 +38,7 @@
 ### Preliminary Design
 
 Data Design
-![ERD]('./Balloon Cup ERD.png')
+![ERD](Balloon_Cup_ERD.png)
 
 Component Design
 ![CRD}('./Balloon Cup Components.png')
