@@ -41,7 +41,10 @@ Data Design
 ![ERD](Balloon_Cup_ERD.png)
 
 Component Design
-![CRD}(Balloon_Cup_Components.png')
+![CRD](Balloon_Cup_Components.png)
+
+Board Layout
+![Layout](Balloon_Cup_Board.png)
 
 ***
 
