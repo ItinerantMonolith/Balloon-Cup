@@ -44,7 +44,7 @@ const Nav = (props) => {
                   aria-label="menu"
                   style={{ color: 'white' }}
                >
-                  <Icon>terrain</Icon>
+                  <Icon>games</Icon>
                </IconButton>
                <Typography variant="h6" style={{ flexGrow: 1 }}>
                   Balloon Cup!
@@ -110,7 +110,7 @@ const Nav = (props) => {
                   aria-label="menu"
                   style={{ color: 'white' }}
                >
-                  <Icon>public</Icon>
+                  <Icon>games</Icon>
                </IconButton>
                <Typography variant="h6" style={{ flexGrow: 1 }}>
                   Balloon Cup!

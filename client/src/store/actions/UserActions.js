@@ -2,6 +2,9 @@ import {
    SET_USER,
    SET_AUTHENTICATED,
    UPDATE_NAME,
+   USER_CONNECT,
+   USER_DISCONNECT,
+   USER_START_GAME,
    FORM_UPDATE_NAME,
    FORM_UPDATE_EMAIL,
    FORM_UPDATE_PASSWORD,
@@ -80,6 +83,16 @@ export const UpdateUserName = (email, name) => async(dispatch) => {
    }
 }
 
+export const ConnectToGame = ( socket ) => ({
+    type: USER_CONNECT,
+    payload: socket
+})
+
+export const DisconnectFromGame = () => ( {
+    type: USER_DISCONNECT,
+    payload: ''
+})
+
 export const setAuthenticated = (isAuthenticated) => ({
    type: SET_AUTHENTICATED,
    payload: isAuthenticated,
@@ -119,3 +132,4 @@ export const FormClear = () => ({
     type: FORM_CLEAR,
     payload: ''
 })
+
