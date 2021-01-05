@@ -2,9 +2,6 @@ import {
    SET_USER,
    SET_AUTHENTICATED,
    UPDATE_NAME,
-   USER_CONNECT,
-   USER_DISCONNECT,
-   USER_START_GAME,
    FORM_UPDATE_NAME,
    FORM_UPDATE_EMAIL,
    FORM_UPDATE_PASSWORD,
@@ -60,7 +57,7 @@ export const LoginUser = (email, password) => async (dispatch) => {
 
 export const UpdateUserPassword = (email, oldPassword, newPassword) => async (dispatch) => {
    try {
-      const res = await __UpdatePasword(email, oldPassword, newPassword)
+      await __UpdatePasword(email, oldPassword, newPassword)
 
       // if the password update is successful, we don't need to change the state at all
    } catch (err) {
@@ -82,16 +79,6 @@ export const UpdateUserName = (email, name) => async(dispatch) => {
       throw err
    }
 }
-
-export const ConnectToGame = ( socket ) => ({
-    type: USER_CONNECT,
-    payload: socket
-})
-
-export const DisconnectFromGame = () => ( {
-    type: USER_DISCONNECT,
-    payload: ''
-})
 
 export const setAuthenticated = (isAuthenticated) => ({
    type: SET_AUTHENTICATED,

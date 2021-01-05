@@ -1,20 +1,28 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Button, Icon, Grid, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
 import '../styles/Home.css'
 import io from 'socket.io-client'
-import { ConnectToGame, DisconnectFromGame } from '../store/actions/UserActions'
+import {
+   ConnectToGame,
+   DisconnectFromGame,
+   SetMe,
+   UpdateGame,
+} from '../store/actions/GameActions'
 
 const ENDPOINT = 'localhost:3002'
 
-const mapStateToProps = ({ userState }) => {
-   return { userState }
+const mapStateToProps = ({ userState, gameState }) => {
+   return { userState, gameState }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
       connectGame: (socket) => dispatch(ConnectToGame(socket)),
-      disconnectGame: () => dispatch(DisconnectFromGame())
+      disconnectGame: () => dispatch(DisconnectFromGame()),
+      setMe: (isFirst) => dispatch(SetMe(isFirst)),
+      updateGame: (newGame) => dispatch(UpdateGame(newGame)),
    }
 }
 
@@ -22,17 +30,25 @@ const Home = (props) => {
    const playGame = () => {
       const socket = io(ENDPOINT, { query: `userId=${props.userState.id}` })
 
-      console.log ( socket )
       props.connectGame(socket)
 
       socket.on('game', (data) => {
          console.log(data)
+         if (data.action === 'Start Game') {
+            // see if I'm player 0 or player 1
+            props.setMe(data.gameState.players[0].id === props.userState.id)
+            props.updateGame(data.gameState)
+            props.history.push('/game')
+         }
+         else if ( data.action === 'update' ) {
+            props.updateGame(data.gameState)
+         }
       })
    }
 
    const cancelGame = () => {
-       props.userState.connection.disconnect()
-       props.disconnectGame()
+      props.gameState.connection.disconnect()
+      props.disconnectGame()
    }
 
    return (
@@ -45,11 +61,10 @@ const Home = (props) => {
                      <h2>Put a cool description here!</h2>
                      <p className="description">Lorem Ipsum!</p>
                      {props.userState.authenticated ? (
-                        props.userState.gameStatus === '' ? (
+                        props.gameState.gameStatus === '' ? (
                            <div style={{ margin: '10px' }}>
                               <Button
-                                //  href="/game"
-                                onClick={playGame}
+                                 onClick={playGame}
                                  variant="contained"
                                  endIcon={<Icon>person_add</Icon>}
                                  style={{
@@ -63,8 +78,10 @@ const Home = (props) => {
                            </div>
                         ) : (
                            <div>
-                               <div>WAITING FOR GAME TO LAUNCH</div>
-                               <Button onClick={cancelGame} variant="contained"
+                              <div>WAITING FOR GAME TO LAUNCH</div>
+                              <Button
+                                 onClick={cancelGame}
+                                 variant="contained"
                                  endIcon={<Icon>cancel</Icon>}
                                  style={{
                                     margin: '0px 20px',
@@ -72,7 +89,7 @@ const Home = (props) => {
                                     color: 'white',
                                  }}
                               >
-                                  Cancel Game
+                                 Cancel Game
                               </Button>
                            </div>
                         )
@@ -85,4 +102,4 @@ const Home = (props) => {
    )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home))

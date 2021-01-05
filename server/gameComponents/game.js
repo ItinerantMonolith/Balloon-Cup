@@ -22,7 +22,7 @@ class Game {
          bag: this.bag.length,
          trophies: this.trophies,
          races: this.races,
-         nextPlayer: this.nextPlayer
+         nextPlayer: this.nextPlayer,
       }
    }
 
@@ -53,24 +53,25 @@ class Game {
          id: player.id,
          name: '',
          cards: [],
-         cubes: [],
+         cubes: new Array(5).fill(0),
          trophies: [],
       }))
       this.players[0].name = await this.getPlayerName(players[0].id)
       this.players[1].name = await this.getPlayerName(players[1].id)
       this.sockets = players.map((player) => player.socket)
       this.deck = this.shuffle(this.createDeck())
-      console.log ( 'deck', this.deck)
       this.bag = this.shuffle(this.fillBag())
-      console.log ( 'bag', this.bag)
       this.discards = []
       this.races = new Array(4).fill({}).map((e, i) => ({
-         isLow: e % 2 ? false : true,
+         raceNo: i + 1,
+         isLow: i % 2 ? false : true,
          cards: [[], []],
          cubes: [],
          isOver: false,
       }))
-      this.trophies = new Array(5).fill({}).map((e, i) => ({ color: i, cost: 7 - i }))
+      this.trophies = new Array(5)
+         .fill({})
+         .map((e, i) => ({ color: i, cost: 7 - i }))
 
       for (let i = 0; i < this.races.length; i++) {
          this.startRace(i)
@@ -81,6 +82,8 @@ class Game {
             this.players[i].cards.push(this.drawCard())
          }
 
+      this.sortHands()
+      this.checkValidPlays()
       this.gameActions.push('New Game Created')
    }
 
@@ -94,11 +97,25 @@ class Game {
       this.gameActions = []
    }
 
+   sortHands() {
+      this.players.forEach((player) => {
+         player.cards.sort((a, b) => {
+            if (a.color < b.color) return -1
+            else if (a.color > b.color) return 1
+
+            return a.value - b.value
+         })
+      })
+   }
+
    shuffle(deck) {
       const newDeck = []
       while (deck.length > 0)
          newDeck.push(
-            deck.splice(Math.floor(Math.random() * Math.floor(deck.length)), 1)[0]
+            deck.splice(
+               Math.floor(Math.random() * Math.floor(deck.length)),
+               1
+            )[0]
          )
 
       return newDeck
@@ -150,7 +167,12 @@ class Game {
             const newCube = this.drawCube()
             this.races[raceId].cubes.push(newCube)
             this.races[raceId].cards.forEach((e) =>
-               e.push({ id: -1, color: newCube.color })
+               e.push({
+                  id: -1,
+                  color: newCube.color,
+                  value: -1,
+                  validPlay: false,
+               })
             )
          }
       } else {
@@ -178,10 +200,15 @@ class Game {
 
       let counter = 0
       for (let i = 0; i < colors.length; i++)
-         for (let j = 0; j < 13; j++)
+         for (let j = 1; j < 14; j++)
             if (!missing[i].includes(j)) {
                if (asCards) {
-                  cards.push({ id: counter, color: i, value: j })
+                  cards.push({
+                     id: counter,
+                     color: i,
+                     value: j,
+                     validPlay: false,
+                  })
                } else {
                   cards.push({ id: counter, color: i })
                }
@@ -189,6 +216,25 @@ class Game {
             }
 
       return cards
+   }
+
+   checkValidPlays() {
+      // find out what colors are available across all races.
+      const available = new Array(5).fill(false)
+      this.races.forEach((race) => {
+         race.cards.forEach((cardSide) => {
+            cardSide.forEach((card) => {
+               if (card.id === -1) {
+                  available[card.color] = true
+               }
+            })
+         })
+      })
+      this.players.forEach((player) => {
+         player.cards.forEach((card) => {
+            card.validPlay = available[card.color]
+         })
+      })
    }
 }
 

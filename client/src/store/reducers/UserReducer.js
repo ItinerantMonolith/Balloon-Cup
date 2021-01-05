@@ -2,9 +2,6 @@ import {
    SET_USER,
    SET_AUTHENTICATED,
    UPDATE_NAME,
-   USER_CONNECT,
-   USER_DISCONNECT,
-   USER_START_GAME,
    FORM_UPDATE_NAME,
    FORM_UPDATE_EMAIL,
    FORM_UPDATE_PASSWORD,
@@ -26,8 +23,6 @@ const initialState = {
    formOldPassword: '',
    formPasswordsMatch: false,
    formError: false,
-   connection: null,
-   gameStatus: '',
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -40,12 +35,6 @@ const UserReducer = (state = initialState, action) => {
 
       case SET_AUTHENTICATED:
          return { ...state, authenticated: action.payload }
-
-      case USER_CONNECT:
-         return { ...state, connection: action.payload, gameStatus: 'PENDING' }
-
-      case USER_DISCONNECT:
-         return { ...state, connection: null, gameStatus: '' }
 
       case FORM_UPDATE_NAME:
          return { ...state, formName: action.payload }

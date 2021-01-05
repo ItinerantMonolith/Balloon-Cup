@@ -58,7 +58,7 @@ class GameManager {
       this.players[available[1]].game = game
 
       this.games.push(game)
-      game.sendGameMessage( { action: 'Game Starting!', gameState: game.gameState() })
+      game.sendGameMessage( { action: 'Start Game', gameState: game.gameState() })
    }
 
    getSocketByID(id) {

@@ -2,6 +2,7 @@
 import { Switch, Route, withRouter } from 'react-router-dom'
 import Nav from './components/Nav'
 import Home from './components/Home'
+import Game from './components/Game'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import UpdateName from './pages/UpdateName'
@@ -22,7 +23,7 @@ function App() {
             />
             <Route path="/register" component={(props) => <Register />} />
             <Route path="/login" component={() => <Login />} />
-            {/* <Route path="/game" component={() => <Game />} /> */}
+            <Route path="/game" component={() => <Game />} />
          </Switch>
       </div>
    )
