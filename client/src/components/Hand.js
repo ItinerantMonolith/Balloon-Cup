@@ -27,8 +27,8 @@ const Hand = (props) => {
                </Paper>
             </Grid>
             {me.cards.map((card) => (
-               <Grid item xs={6}>
-                  <BalloonCard card={card} key={card.id}/>
+               <Grid item xs={6} key={card.id}>
+                  <BalloonCard card={card}/>
                </Grid>
             ))}
          </Grid>
@@ -36,7 +36,7 @@ const Hand = (props) => {
          <Grid container spacing={2}>
             {me.trophies.map((trophy) => (
                <Grid item xs>
-                  <Trophy trophy={trophy} />
+                  <Trophy trophy={trophy}  key={trophy}/>
                </Grid>
             ))}
          </Grid>

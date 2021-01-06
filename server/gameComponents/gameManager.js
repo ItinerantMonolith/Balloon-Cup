@@ -15,6 +15,7 @@ class GameManager {
       if (index >= 0) this.players.splice(index, 1)
    }
 
+
    addPlayer(socket) {
       const player = {
          id: socket.handshake.query.userId,
@@ -32,7 +33,6 @@ class GameManager {
          this.disconnectPlayer(socket)
       })
 
-      this.testSocket(socket)
 
       this.players.forEach((e) => console.log(e.id))
       this.checkForPair()
@@ -58,7 +58,7 @@ class GameManager {
       this.players[available[1]].game = game
 
       this.games.push(game)
-      game.sendGameMessage( { action: 'Start Game', gameState: game.gameState() })
+      game.launch()
    }
 
    getSocketByID(id) {

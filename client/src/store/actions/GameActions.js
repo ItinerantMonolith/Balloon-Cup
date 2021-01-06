@@ -3,8 +3,8 @@ import {
    GAME_DISCONNECT,
    GAME_SET_STATE,
    GAME_SET_ME,
-   GAME_CARD_SELECT
-   
+   GAME_CARD_SELECT,
+   GAME_MSG_TOGGLE
 } from '../types'
 
 // import { } from '../../services/UserService'
@@ -33,4 +33,9 @@ export const SetMe = ( isMe ) => ({
 export const SelectCard = ( cardId ) => ({
     type: GAME_CARD_SELECT,
     payload: cardId
+})
+
+export const MsgToggle = ( showMsg ) => ({
+    type: GAME_MSG_TOGGLE,
+    payload: showMsg
 })

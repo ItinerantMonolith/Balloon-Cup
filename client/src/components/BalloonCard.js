@@ -14,9 +14,10 @@ const mapDispatchToProps = (dispatch) => {
    }
 }
 
-const BalloonCard = ( props ) => {
-    const { card } = props
-   const cardClick = (cardId) => {
+const BalloonCard = (props) => {
+   const { card, cardMap } = props
+
+   const cardSelect = (cardId) => {
       if (isSelected) {
          props.selectCard(-1)
       } else {
@@ -24,19 +25,38 @@ const BalloonCard = ( props ) => {
       }
    }
 
+   const targetSelect = (details) => {
+       
+      const gameTurn = {
+         cardPlayed: props.gameState.selectedCard,
+         targetRace: details.race,
+         targetSide: props.gameState.me === 0 ? details.side : details.side === 0 ? 1 : 0,
+         targetCard: details.card,
+      }
+      console.log('target',details)
+      props.selectCard(-1)
+      props.gameState.connection.emit('game_turn', gameTurn )
+   }
+
    const isSelected = card.id === props.gameState.selectedCard
 
    // if we're looking at a balloon in a race, if it matches the color of the selected
-   const isValidTarget = card.color = props.gameState.selectedColor
+   const isValidTarget = card.color === props.gameState.selectedColor
+
+   const isMyTurn = props.gameState.me === props.gameState.nextPlayer
 
    return (
       <React.Fragment>
          {card.id >= 0 ? (
-            <Card onClick={ card.validPlay ? () => cardClick(card.id): null}>
+            <Card
+               onClick={
+                  card.validPlay && isMyTurn ? () => cardSelect(card.id) : null
+               }
+            >
                <img
                   src={colorBalloons[card.color]}
                   className={`balloon ${
-                     !card.validPlay ? 'balloon-empty' : null
+                     !card.validPlay ? 'balloon-empty' : ''
                   }`}
                   alt="balloon"
                />
@@ -47,7 +67,7 @@ const BalloonCard = ( props ) => {
                </CardContent>
             </Card>
          ) : (
-            <Card>
+            <Card onClick={isValidTarget ? () => targetSelect(cardMap) : null}>
                <img
                   src={colorBalloons[card.color]}
                   className={`balloon ${

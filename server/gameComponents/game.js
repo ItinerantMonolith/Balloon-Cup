@@ -1,4 +1,5 @@
 const { User } = require('../models')
+const Race = require('./race')
 const colors = ['Red', 'Yellow', 'Green', 'Blue', 'Gray']
 
 class Game {
@@ -11,10 +12,12 @@ class Game {
       this.trophies = []
       this.sockets = []
       this.gameActions = []
+      this.playerActions = [[],[]]
       this.nextPlayer = 0
+      this.gameTurn = 1
    }
 
-   gameState() {
+   gameState( forPlayer ) {
       return {
          players: this.players,
          deck: this.deck.length,
@@ -23,13 +26,14 @@ class Game {
          trophies: this.trophies,
          races: this.races,
          nextPlayer: this.nextPlayer,
+         gameActions: [ ...this.gameActions, ...this.playerActions[forPlayer] ],
+         gameTurn: this.gameTurn,
       }
    }
 
-   sendGameMessage(message, player = -1) {
-      if (player === 0 || player === -1) this.sockets[0].emit('game', message)
-
-      if (player === 1 || player === -1) this.sockets[1].emit('game', message)
+   sendGameMessage( action ) {
+        this.sockets[0].emit('game', { action: action, gameState: this.gameState(0) })
+        this.sockets[1].emit('game', { action: action, gameState: this.gameState(1) })
    }
 
    getPlayerName = async (id) => {
@@ -62,20 +66,14 @@ class Game {
       this.deck = this.shuffle(this.createDeck())
       this.bag = this.shuffle(this.fillBag())
       this.discards = []
-      this.races = new Array(4).fill({}).map((e, i) => ({
-         raceNo: i + 1,
-         isLow: i % 2 ? false : true,
-         cards: [[], []],
-         cubes: [],
-         isOver: false,
-      }))
+      for (let i = 1; i < 5; i++) {
+          this.races.push(new Race(i))
+      }
+      this.races.forEach((race) => this.startRace(race))
+
       this.trophies = new Array(5)
          .fill({})
          .map((e, i) => ({ color: i, cost: 7 - i }))
-
-      for (let i = 0; i < this.races.length; i++) {
-         this.startRace(i)
-      }
 
       for (let i = 0; i < 2; i++)
          for (let j = 0; j < 8; j++) {
@@ -85,7 +83,57 @@ class Game {
       this.sortHands()
       this.checkValidPlays()
       this.gameActions.push('New Game Created')
+
+      this.sockets[0].on('game_turn', ( gameTurn ) => this.processTurn(gameTurn, 0) )
+      this.sockets[1].on('game_turn', ( gameTurn ) => this.processTurn(gameTurn, 1) )
    }
+
+   launch () {
+        this.sendGameMessage( 'Start Game' )
+   }
+
+   processTurn ( gameTurn, playerId ) {
+        console.log ( 'got a game_turn message from player ', playerId )
+        console.log ( gameTurn )
+        this.gameActions = []
+        this.playerActions = [[],[]]
+
+        // gameTurn = { cardPlayed: 12, targetRace: 3, targetSide: 0, targetCard: 3 }
+        // remove the card from the player's hand
+        const cardPlayed = this.players[playerId].cards.splice( this.players[playerId].cards.findIndex( card => card.id === gameTurn.cardPlayed ), 1)[0]
+        cardPlayed.validPlay = false
+        // add the card to the race.
+        const curRace = this.races[ gameTurn.targetRace ]
+        curRace.addCard( cardPlayed, gameTurn.targetSide, gameTurn.targetCard )
+        this.discardCard( cardPlayed )
+        // add that to the gameActions
+        const otherId = playerId === 0 ? 1 : 0
+        this.gameActions.push(`${this.players[playerId].name} played the ${colors[cardPlayed.color]} ${cardPlayed.value} on ${this.players[gameTurn.targetSide].name}'s side of race #${gameTurn.targetRace + 1}`)
+        // draw a card, add it to the playerActions
+        const newCard = this.drawCard()
+        this.players[playerId].cards.push(newCard)
+        this.sortHands()
+        this.playerActions[playerId].push(`You drew the ${colors[newCard.color]} ${newCard.value}.`)
+        // set next player
+        this.nextPlayer = otherId
+        // check to see if the race is over.
+        //      if it is, 
+        //          set next player
+        //          award the cubes, 
+        //          discard the cards, 
+        //          clear the race, 
+        //          start a new race.
+        //          record all that in gameActions
+        //          check to see if trophies can be earned (for both players)
+        // increment the turn counter
+        // before the turn starts, make sure the current player is able to play cards
+        //  if not, discard their hand and redraw (post-MVP implement the rule correctly)
+        // send out the gameState
+
+        this.checkValidPlays()
+        this.sendGameMessage( 'update' )
+   }
+
 
    setGame(state) {
       this.players = state.players
@@ -138,47 +186,25 @@ class Game {
       this.discards.push(card)
    }
 
-   isRaceOver(raceId) {
-      this.races[raceId].cards.forEach((e) =>
-         e.forEach((card) => {
-            if (card.id === -1) return false
-         })
-      )
-      return true
-   }
 
-   endRace(raceId) {
+
+   clearRace( race ) {
       // discard cards and cubes, flip the card
-      this.races[raceId].cards.forEach((side) => {
-         while (side.length) {
-            const card = side.pop()
-            this.discardCard(card)
-         }
-      })
-      this.races[raceId].cubes = [] // these should have already been given to the winning player
-      this.races[raceId].isLow = !this.races[raceId].isLow
+      const usedCards = race.endRace()
+      usedCards.forEach ( card => this.discardCard(card))
    }
 
-   startRace(raceId) {
+   startRace( race ) {
       // draw cubes and set up the card slots.
       // let's make sure there are enough cubes left in the bag, first
-      if (this.bag.length > raceId) {
-         for (let i = 0; i <= raceId; i++) {
-            const newCube = this.drawCube()
-            this.races[raceId].cubes.push(newCube)
-            this.races[raceId].cards.forEach((e) =>
-               e.push({
-                  id: -1,
-                  color: newCube.color,
-                  value: -1,
-                  validPlay: false,
-               })
-            )
+      if (this.bag.length >= race.raceNo ) {
+         for (let i = 0; i < race.raceNo; i++) {
+             race.addCube ( this.drawCube() )
          }
       } else {
-         this.races[raceId].isOver = true
+         race.isOver = true
          this.gameActions.push(
-            `Not enough cubes left for another race #${raceId + 1}.`
+            `Not enough cubes left for another race #${race.raceNo}.`
          )
       }
    }

@@ -4,6 +4,7 @@ import {
    GAME_DISCONNECT,
    GAME_SET_ME,
    GAME_CARD_SELECT,
+   GAME_MSG_TOGGLE
 } from '../types'
 
 const initialState = {
@@ -20,6 +21,8 @@ const initialState = {
    selectedColor: -1,
    connection: null,
    gameStatus: '',
+   gameActions: [],
+   hasMessage: false,
 }
 
 const GameReducer = (state = initialState, action) => {
@@ -34,8 +37,16 @@ const GameReducer = (state = initialState, action) => {
             races: action.payload.races,
             trophies: action.payload.trophies,
             nextPlayer: action.payload.nextPlayer,
+            gameActions: action.payload.gameActions,
+            hasMessage: action.payload.gameActions.length ? true : false,
 
             gameStatus: 'ACTIVE',
+         }
+
+      case GAME_MSG_TOGGLE:
+         return {
+            ...state,
+            hasMessage: action.payload,
          }
 
       case GAME_SET_ME:
@@ -52,17 +63,18 @@ const GameReducer = (state = initialState, action) => {
          return { ...state, connection: null, gameStatus: '' }
 
       case GAME_CARD_SELECT:
-         let selectedColor = -1
-         let cardTest = action.payload.cardId
-         const colors = [13, 11, 9, 7, 5]
-         while ( cardTest > 0 ) {
-            cardTest -= colors[selectedColor]
-            selectedColor ++
+         let selectedColor = 0
+         let cardTest = action.payload
+         const colorCount = [13, 11, 9, 7, 5]
+         cardTest -= colorCount[selectedColor]
+         while (cardTest >= 0) {
+            selectedColor++
+            cardTest -= colorCount[selectedColor]
          }
-
+         if (action.payload === -1) selectedColor = -1
          return {
             ...state,
-            selectedCard: action.payload.cardId,
+            selectedCard: action.payload,
             selectedColor: selectedColor,
          }
 

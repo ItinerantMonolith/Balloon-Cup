@@ -8,7 +8,7 @@ const Cubes = (props) => {
       <Grid container spacing={2}>
          <Grid item xs={1}> </Grid>
          {props.cubes.map((cube, i) => (
-            <Grid item xs={2}>
+            <Grid item xs={2}  key={i}>
                <Card>
                    <img src={colorCubes[i]} alt="Cube" className='cube' />
                    {`${cube}`}

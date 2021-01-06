@@ -17,28 +17,30 @@ const mapDispatchToProps = (dispatch) => {
    }
 }
 
-const Race = ({ race }) => {
-   const empties = new Array(4 - race.raceNo).fill(<Grid item xs={1}></Grid>)
+const Race = ( props ) => {
+    const { race } = props
+    const { me, opp } = props.gameState
+   const empties = new Array(4 - race.raceNo).fill({})
    return (
       <Grid container item xs={12} spacing={1} alignItems="center">
-         {empties.map((e) => e)}
-         {race.cards[0].map((card) => (
-            <Grid item xs={1}>
-               <BalloonCard card={card} />
+         {empties.map((e,i) => (<Grid item xs={1} key={i}></Grid>) )}
+         {race.cards[me].map((card,i) => (
+            <Grid item xs={1} key={i}>
+               <BalloonCard card={card} cardMap={ { race: race.raceNo-1, side: 0, card: i } } />
             </Grid>
          ))}
          <Grid item xs={4}>
             <img src={ race.isLow ? plains : mountains } className="race" alt="race tile" />
-            {race.cubes.map( e => (
-                <img src={ colorCubes[e.color] } alt="cube" className="raceCube" />
+            {race.cubes.map( (e,i) => (
+                <img src={ colorCubes[e.color] } alt="cube" className="raceCube" key={i}/>
             ))}
          </Grid>
-         {race.cards[1].map((card) => (
-            <Grid item xs={1}>
-               <BalloonCard card={card} />
+         {race.cards[opp].map((card, i) => (
+            <Grid item xs={1} key={i}>
+               <BalloonCard card={card} cardMap={ { race: race.raceNo-1, side: 1, card: i } } />
             </Grid>
          ))}
-         {empties.map((e) => e)}
+         {empties.map((e,i) => (<Grid item xs={1} key={i}></Grid>) )}
       </Grid>
    )
 }

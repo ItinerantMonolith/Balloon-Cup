@@ -32,7 +32,7 @@ body {
 }
 
 .balloon-target {
-    opacity: 0.75;
+    opacity: 0.85;
 }
 
 /* use position:relative and left:25% */
