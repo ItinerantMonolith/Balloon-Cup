@@ -6,12 +6,24 @@ import { SelectCard } from '../store/actions/GameActions'
 
 const useStyles = makeStyles({
    card: {
-      backgroundImage: props => `url(${colorBalloons[props.card.color]})`,
+      backgroundImage: (props) =>
+         `url(${
+            colorBalloons[props.card.color][props.card.validPlay ? 0 : 1]
+         })`,
       backgroundSize: '80px 120px',
       borderRadius: 15,
       width: '80px',
       height: '120px',
-      border: '3px solid black'
+      border: (props) => {
+         if (
+            (props.card.id >= 0 &&
+               props.card.id === props.gameState.selectedCard) ||
+            (props.card.id < 0 &&
+               props.card.color === props.gameState.selectedColor)
+         )
+            return '4px solid black'
+         else return '4px solid white'
+      },
    },
 })
 
@@ -63,18 +75,12 @@ const BalloonCard = (props) => {
    return (
       <React.Fragment>
          {card.id >= 0 ? (
-            <Card className={classes.card}
+            <Card
+               className={classes.card}
                onClick={
                   card.validPlay && isMyTurn ? () => cardSelect(card.id) : null
                }
             >
-               {/* <img
-                  src={colorBalloons[card.color]}
-                  className={`balloon ${
-                     !card.validPlay ? 'balloon-empty' : ''
-                  }`}
-                  alt="balloon"
-               /> */}
                <CardContent>
                   {' '}
                   {`${card.value}`}
@@ -82,15 +88,10 @@ const BalloonCard = (props) => {
                </CardContent>
             </Card>
          ) : (
-            <Card onClick={isValidTarget ? () => targetSelect(cardMap) : null}>
-               <img
-                  src={colorBalloons[card.color]}
-                  className={`balloon ${
-                     isValidTarget ? 'balloon-target' : 'balloon-empty'
-                  }`}
-                  alt="empty balloon"
-               />
-            </Card>
+            <Card
+               className={classes.card}
+               onClick={isValidTarget ? () => targetSelect(cardMap) : null}
+            ></Card>
          )}
       </React.Fragment>
    )
