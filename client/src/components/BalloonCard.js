@@ -1,16 +1,17 @@
 import React from 'react'
-import { Card, CardContent, makeStyles } from '@material-ui/core'
+import { Card, makeStyles } from '@material-ui/core'
 import { colorBalloons } from '../colorMap'
 import { connect } from 'react-redux'
 import { SelectCard } from '../store/actions/GameActions'
+import myStyles from '../styles/myStyles'
 
 const useStyles = makeStyles({
    card: {
       backgroundImage: (props) =>
          `url(${
-            colorBalloons[props.card.color][props.card.validPlay ? 0 : 1]
+            colorBalloons[props.card.color][ (props.card.validPlay || ( props.cardMap && (props.card.value >= 0))) ? 0 : 1]
          })`,
-      backgroundSize: '80px 120px',
+      backgroundSize: 'cover',
       borderRadius: 15,
       width: '80px',
       height: '120px',
@@ -25,6 +26,9 @@ const useStyles = makeStyles({
          else return '4px solid white'
       },
    },
+   cardValue: {
+      margin: '15px auto',
+   }
 })
 
 const mapStateToProps = ({ gameState }) => {
@@ -39,6 +43,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const BalloonCard = (props) => {
    const classes = useStyles(props)
+   const styles = myStyles()
+
    const { card, cardMap } = props
 
    const cardSelect = (cardId) => {
@@ -81,11 +87,9 @@ const BalloonCard = (props) => {
                   card.validPlay && isMyTurn ? () => cardSelect(card.id) : null
                }
             >
-               <CardContent>
-                  {' '}
-                  {`${card.value}`}
-                  {isSelected ? ' SELECTED' : null}
-               </CardContent>
+               <div className={`${classes.cardValue} ${styles.defaultText} ${styles.size3}`}>
+                  {card.value}
+               </div>
             </Card>
          ) : (
             <Card

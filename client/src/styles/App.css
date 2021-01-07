@@ -5,43 +5,6 @@
 body {
     background: url('../assets/hot_air_balloons.png');
     background-size: cover;
+    /* background: paleturquoise; */
 }
 
-.AppBar {
-    background-color: red;
-    font-family: 'Yeon Sung', cursive;
-}
-
-.cube {
-    width: 15px;
-}
-
-.raceCube {
-    width: 30px;
-}
-
-
-.balloon {
-    width: 70px;
-    margin: 0 auto;
-    object-fit: cover;
-}
-
-.balloon-empty {
-    opacity: 0.50;
-}
-
-.balloon-target {
-    opacity: 0.85;
-    border: 3px black solid;
-}
-
-/* use position:relative and left:25% */
-
-.race {
-    width: 200px;
-}
-
-.centerText {
-    margin: 0px auto;
-}

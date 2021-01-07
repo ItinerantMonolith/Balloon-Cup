@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Nav from '../components/Nav'
 import {
    FormControl,
    Button,
@@ -71,6 +72,7 @@ function Register(props) {
 
    return (
       <div>
+          <Nav />
          <Paper elevation={6}>
             <Grid container justify="center" style={{ margin: '20px' }}>
                <FormControl className="flex-col" onSubmit={handleSubmit}>

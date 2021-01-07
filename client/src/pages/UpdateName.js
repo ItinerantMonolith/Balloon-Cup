@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Nav from '../components/Nav'
 import {
    FormControl,
    Button,
@@ -40,30 +41,33 @@ function UpdateName(props) {
    }
 
    return (
-      <div className="signup flex-col center">
-         <Paper elevation={6}>
-            <Grid container justify="center" style={{ margin: '20px' }}>
-               <FormControl className="flex-col" onSubmit={handleSubmit}>
-                  <TextField
-                     placeholder="New Name"
-                     type="text"
-                     name="name"
-                     value={props.userState.formName}
-                     onChange={handleName}
-                  />
+      <div>
+         <Nav />
+         <div className="signup flex-col center">
+            <Paper elevation={6}>
+               <Grid container justify="center" style={{ margin: '20px' }}>
+                  <FormControl className="flex-col" onSubmit={handleSubmit}>
+                     <TextField
+                        placeholder="New Name"
+                        type="text"
+                        name="name"
+                        value={props.userState.formName}
+                        onChange={handleName}
+                     />
 
-                  <br />
-                  <Button
-                     onClick={handleSubmit}
-                     variant="contained"
-                     style={{ backgroundColor: '#9a9a9a', color: 'white' }}
-                     endIcon={<Icon>person</Icon>}
-                  >
-                     Submit
-                  </Button>
-               </FormControl>
-            </Grid>
-         </Paper>
+                     <br />
+                     <Button
+                        onClick={handleSubmit}
+                        variant="contained"
+                        style={{ backgroundColor: '#9a9a9a', color: 'white' }}
+                        endIcon={<Icon>person</Icon>}
+                     >
+                        Submit
+                     </Button>
+                  </FormControl>
+               </Grid>
+            </Paper>
+         </div>
       </div>
    )
 }

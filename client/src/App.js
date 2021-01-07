@@ -1,6 +1,4 @@
-// import React, { useState, useEffect } from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
-import Nav from './components/Nav'
 import Home from './components/Home'
 import Game from './components/Game'
 import Register from './pages/Register'
@@ -13,7 +11,6 @@ import './styles/App.css'
 function App() {
    return (
       <div className="App">
-         <Nav />
          <Switch>
             <Route exact path="/" component={() => <Home />} />
             <Route path="/updatename" component={(props) => <UpdateName />} />

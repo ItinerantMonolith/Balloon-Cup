@@ -64,7 +64,7 @@ const Nav = (props) => {
                   aria-haspopup="true"
                   onClick={handleClick}
                >
-                  Settings
+                  Account
                </Button>
                <Menu
                   id="simple-menu"

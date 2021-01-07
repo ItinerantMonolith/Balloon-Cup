@@ -2,8 +2,9 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button, Icon, Grid, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
-import '../styles/Home.css'
 import io from 'socket.io-client'
+import '../styles/Home.css'
+import Nav from './Nav'
 import {
    ConnectToGame,
    DisconnectFromGame,
@@ -57,6 +58,7 @@ const Home = (props) => {
 
    return (
       <div>
+          <Nav />
          <div style={{ textAlign: 'center' }}>
             <Grid container justify="center" style={{ margin: '5px' }}>
                <Grid item xs={6}>

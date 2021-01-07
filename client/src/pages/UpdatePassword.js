@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Nav from '../components/Nav'
 import {
    FormControl,
    Button,
@@ -64,50 +65,53 @@ function UpdatePassword(props) {
       }
    }
    return (
-      <div className="signup flex-col center">
-         <Paper elevation={6}>
-            <Grid container justify="center" style={{ margin: '20px' }}>
-               <FormControl className="flex-col" onSubmit={handleSubmit}>
-                  <TextField
-                     placeholder="Enter Old Password"
-                     type="password"
-                     name="old password"
-                     value={props.userState.formOldPassword}
-                     onChange={handleOldPassword}
-                  />
-                  <TextField
-                     placeholder="Enter New Password"
-                     type="password"
-                     name="new password"
-                     value={props.userState.formPassword}
-                     onChange={handlePassword}
-                  />
-                  <TextField
-                     placeholder="Confirm New Password"
-                     type="password"
-                     name="new password"
-                     value={props.userState.formPassword2}
-                     onChange={handleConfirmPassword}
-                  />
-                  <br />
-                  {props.userState.formPassword.length &&
-                  props.userState.formPasswordsMatch ? (
-                     <p></p>
-                  ) : (
-                     <p>Passwords must match</p>
-                  )}
-                  <br />
-                  <Button
-                     onClick={handleSubmit}
-                     variant="contained"
-                     style={{ backgroundColor: '#9a9a9a', color: 'white' }}
-                     endIcon={<Icon>person</Icon>}
-                  >
-                     Submit
-                  </Button>
-               </FormControl>
-            </Grid>
-         </Paper>
+      <div>
+         <Nav />
+         <div className="signup flex-col center">
+            <Paper elevation={6}>
+               <Grid container justify="center" style={{ margin: '20px' }}>
+                  <FormControl className="flex-col" onSubmit={handleSubmit}>
+                     <TextField
+                        placeholder="Enter Old Password"
+                        type="password"
+                        name="old password"
+                        value={props.userState.formOldPassword}
+                        onChange={handleOldPassword}
+                     />
+                     <TextField
+                        placeholder="Enter New Password"
+                        type="password"
+                        name="new password"
+                        value={props.userState.formPassword}
+                        onChange={handlePassword}
+                     />
+                     <TextField
+                        placeholder="Confirm New Password"
+                        type="password"
+                        name="new password"
+                        value={props.userState.formPassword2}
+                        onChange={handleConfirmPassword}
+                     />
+                     <br />
+                     {props.userState.formPassword.length &&
+                     props.userState.formPasswordsMatch ? (
+                        <p></p>
+                     ) : (
+                        <p>Passwords must match</p>
+                     )}
+                     <br />
+                     <Button
+                        onClick={handleSubmit}
+                        variant="contained"
+                        style={{ backgroundColor: '#9a9a9a', color: 'white' }}
+                        endIcon={<Icon>person</Icon>}
+                     >
+                        Submit
+                     </Button>
+                  </FormControl>
+               </Grid>
+            </Paper>
+         </div>
       </div>
    )
 }
