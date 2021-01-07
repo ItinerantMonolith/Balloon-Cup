@@ -1,8 +1,19 @@
 import React from 'react'
-import { Card, CardContent } from '@material-ui/core'
+import { Card, CardContent, makeStyles } from '@material-ui/core'
 import { colorBalloons } from '../colorMap'
 import { connect } from 'react-redux'
 import { SelectCard } from '../store/actions/GameActions'
+
+const useStyles = makeStyles({
+   card: {
+      backgroundImage: props => `url(${colorBalloons[props.card.color]})`,
+      backgroundSize: '80px 120px',
+      borderRadius: 15,
+      width: '80px',
+      height: '120px',
+      border: '3px solid black'
+   },
+})
 
 const mapStateToProps = ({ gameState }) => {
    return { gameState }
@@ -15,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const BalloonCard = (props) => {
+   const classes = useStyles(props)
    const { card, cardMap } = props
 
    const cardSelect = (cardId) => {
@@ -26,16 +38,19 @@ const BalloonCard = (props) => {
    }
 
    const targetSelect = (details) => {
-       
       const gameTurn = {
          cardPlayed: props.gameState.selectedCard,
          targetRace: details.race,
-         targetSide: props.gameState.me === 0 ? details.side : details.side === 0 ? 1 : 0,
+         targetSide:
+            props.gameState.me === 0
+               ? details.side
+               : details.side === 0
+               ? 1
+               : 0,
          targetCard: details.card,
       }
-      console.log('target',details)
       props.selectCard(-1)
-      props.gameState.connection.emit('game_turn', gameTurn )
+      props.gameState.connection.emit('game_turn', gameTurn)
    }
 
    const isSelected = card.id === props.gameState.selectedCard
@@ -48,18 +63,18 @@ const BalloonCard = (props) => {
    return (
       <React.Fragment>
          {card.id >= 0 ? (
-            <Card
+            <Card className={classes.card}
                onClick={
                   card.validPlay && isMyTurn ? () => cardSelect(card.id) : null
                }
             >
-               <img
+               {/* <img
                   src={colorBalloons[card.color]}
                   className={`balloon ${
                      !card.validPlay ? 'balloon-empty' : ''
                   }`}
                   alt="balloon"
-               />
+               /> */}
                <CardContent>
                   {' '}
                   {`${card.value}`}

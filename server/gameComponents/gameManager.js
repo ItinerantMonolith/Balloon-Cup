@@ -46,19 +46,22 @@ class GameManager {
       if (available.length < 2) return
 
       const game = new Game()
+      
       let playerOrder = []
-      Math.random() > 0.5 ? (playerOrder = [0, 1]) : (playerOrder = [1, 0])
-      await game.createGame([
-         this.players[available[playerOrder[0]]],
-         this.players[available[playerOrder[1]]],
-      ])
       this.players[available[0]].status = 'PLAYING'
       this.players[available[0]].game = game
       this.players[available[1]].status = 'PLAYING'
       this.players[available[1]].game = game
+      
+      Math.random() > 0.5 ? (playerOrder = [0, 1]) : (playerOrder = [1, 0])
+      
+      await game.launch([
+         this.players[available[playerOrder[0]]],
+         this.players[available[playerOrder[1]]],
+      ])
 
       this.games.push(game)
-      game.launch()
+
    }
 
    getSocketByID(id) {

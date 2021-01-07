@@ -36,7 +36,7 @@ const Hand = (props) => {
          <Grid container spacing={2}>
             {me.trophies.map((trophy) => (
                <Grid item xs>
-                  <Trophy trophy={trophy}  key={trophy}/>
+                  <Trophy trophy={trophy}  key={trophy.color}/>
                </Grid>
             ))}
          </Grid>

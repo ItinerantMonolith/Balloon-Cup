@@ -4,7 +4,9 @@ import {
    GAME_SET_STATE,
    GAME_SET_ME,
    GAME_CARD_SELECT,
-   GAME_MSG_TOGGLE
+   GAME_MSG_TOGGLE,
+   GAME_OVER, 
+   GAME_RESET
 } from '../types'
 
 // import { } from '../../services/UserService'
@@ -38,4 +40,14 @@ export const SelectCard = ( cardId ) => ({
 export const MsgToggle = ( showMsg ) => ({
     type: GAME_MSG_TOGGLE,
     payload: showMsg
+})
+
+export const GameOver = () => ({
+    type: GAME_OVER,
+    payload: ''
+})
+
+export const ResetGame = () => ({
+    type: GAME_RESET,
+    payload: ''
 })

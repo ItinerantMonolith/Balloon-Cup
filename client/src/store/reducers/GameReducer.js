@@ -4,7 +4,9 @@ import {
    GAME_DISCONNECT,
    GAME_SET_ME,
    GAME_CARD_SELECT,
-   GAME_MSG_TOGGLE
+   GAME_MSG_TOGGLE,
+   GAME_OVER,
+   GAME_RESET,
 } from '../types'
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
    gameStatus: '',
    gameActions: [],
    hasMessage: false,
+   gameTurn: 0,
 }
 
 const GameReducer = (state = initialState, action) => {
@@ -39,9 +42,18 @@ const GameReducer = (state = initialState, action) => {
             nextPlayer: action.payload.nextPlayer,
             gameActions: action.payload.gameActions,
             hasMessage: action.payload.gameActions.length ? true : false,
-
+            gameTurn: action.payload.gameTurn,
             gameStatus: 'ACTIVE',
          }
+
+      case GAME_OVER:
+         return {
+            ...state,
+            gameStatus: 'GAME OVER',
+         }
+
+      case GAME_RESET:
+         return { ...state, ...initialState }
 
       case GAME_MSG_TOGGLE:
          return {

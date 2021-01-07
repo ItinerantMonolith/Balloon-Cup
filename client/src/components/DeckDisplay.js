@@ -37,7 +37,7 @@ const DeckDisplay = (props) => {
                   <Grid container item xs={12} spacing={1}>
                      {props.gameState.trophies.map((trophy) => (
                         <Grid item xs key={trophy.color}>
-                           <Trophy trophy={trophy.color} key={trophy.color}/>
+                           <Trophy trophy={trophy} key={trophy.color}/>
                         </Grid>
                      ))}
                   </Grid>
@@ -53,7 +53,7 @@ const DeckDisplay = (props) => {
                   <Cubes cubes={opp.cubes} />
                   <Grid container spacing={2}>
                      {opp.trophies.map((trophy) => (
-                        <Grid item xs key={trophy}>
+                        <Grid item xs key={trophy.color}>
                            <Trophy trophy={trophy} />
                         </Grid>
                      ))}

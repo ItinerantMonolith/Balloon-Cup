@@ -1,11 +1,11 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Grid, Dialog } from '@material-ui/core'
 import { connect } from 'react-redux'
-// import io from 'socket.io-client'
 import Hand from './Hand'
 import Race from './Race'
 import DeckDisplay from './DeckDisplay'
-import { MsgToggle } from '../store/actions/GameActions'
+import { MsgToggle, ResetGame } from '../store/actions/GameActions'
 import '../styles/Game.css'
 
 const mapStateToProps = ({ gameState }) => {
@@ -14,7 +14,8 @@ const mapStateToProps = ({ gameState }) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      msgToggle: ( showMsg ) => dispatch(MsgToggle(showMsg))
+      msgToggle: ( showMsg ) => dispatch(MsgToggle(showMsg)),
+      resetGame: () => dispatch(ResetGame())
    }
 }
 
@@ -22,6 +23,11 @@ const Game = (props) => {
 
    const handleClose = () => {
       props.msgToggle(false)
+      if ( props.gameState.gameStatus === 'GAME OVER') {
+        props.gameState.connection.disconnect()
+        props.resetGame()
+        props.history.push('/')
+      }
    }
 
    return (
@@ -34,7 +40,10 @@ const Game = (props) => {
                 { props.gameState.gameActions.map ( (action,i) => (
                     <div key={i}>{action}</div>
                 ))}
-                <div>It is {props.gameState.players[ props.gameState.nextPlayer].name}'s turn.</div>
+                { props.gameState.nextPlayer >= 0 ? (
+                    <div>Turn #{props.gameState.gameTurn}: It is {props.gameState.me === props.gameState.nextPlayer ? "YOUR" : `${props.gameState.players[ props.gameState.nextPlayer].name}'s` } turn.</div>
+                ) : null
+                }
             </Dialog>
             <Grid item xs={6}>
                <h3>
@@ -58,4 +67,4 @@ const Game = (props) => {
    )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Game))

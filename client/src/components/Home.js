@@ -9,6 +9,7 @@ import {
    DisconnectFromGame,
    SetMe,
    UpdateGame,
+   GameOver,
 } from '../store/actions/GameActions'
 
 const ENDPOINT = 'localhost:3002'
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       disconnectGame: () => dispatch(DisconnectFromGame()),
       setMe: (isFirst) => dispatch(SetMe(isFirst)),
       updateGame: (newGame) => dispatch(UpdateGame(newGame)),
+      gameOver: () => dispatch(GameOver()),
    }
 }
 
@@ -39,9 +41,11 @@ const Home = (props) => {
             props.setMe(data.gameState.players[0].id === props.userState.id)
             props.updateGame(data.gameState)
             props.history.push('/game')
-         }
-         else if ( data.action === 'update' ) {
+         } else if (data.action === 'update') {
             props.updateGame(data.gameState)
+         } else if (data.action === 'Game Over') {
+            props.updateGame(data.gameState)
+            props.gameOver()
          }
       })
    }

@@ -6,12 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   class Game extends Model {
     static associate(models) {
         Game.belongsTo(models.User, {
-            foreignKey: 'player1_id',
-            as: 'player1'
+            foreignKey: 'player0_id',
+            as: 'player0'
         })
         Game.belongsTo(models.User, {
-            foreignKey: 'player2_id',
-            as: 'player2'
+            foreignKey: 'player1_id',
+            as: 'player1'
         })
         Game.hasMany(models.GameTurn, {
             foreignKey: 'game_id',
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Game.init({
     player0Id: {
-        field: 'player1_id',
+        field: 'player0_id',
         type: DataTypes.UUID,
         references: {
             model: 'users',
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     } ,
     player1Id: {
-        field: 'player2_id',
+        field: 'player1_id',
         type: DataTypes.UUID,
         references: {
             model: 'users',

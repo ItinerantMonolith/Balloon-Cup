@@ -5,7 +5,7 @@ import { colorTrophies } from '../colorMap'
 const Trophy = ({ trophy }) => {
    return (
       <Card>
-         <img src={colorTrophies[trophy]} alt="trophy" className="balloon" />
+         <img src={colorTrophies[trophy.color]} alt="trophy" className="balloon" />
       </Card>
    )
 }
