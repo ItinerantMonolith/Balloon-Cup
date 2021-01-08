@@ -11,6 +11,7 @@ import {
    SetMe,
    UpdateGame,
    GameOver,
+   LostOpponent,
 } from '../store/actions/GameActions'
 
 const ENDPOINT = 'localhost:3002'
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
       setMe: (isFirst) => dispatch(SetMe(isFirst)),
       updateGame: (newGame) => dispatch(UpdateGame(newGame)),
       gameOver: () => dispatch(GameOver()),
+      lostOpponent: () => dispatch(LostOpponent()),
    }
 }
 
@@ -49,6 +51,11 @@ const Home = (props) => {
             props.gameOver()
          }
       })
+
+      socket.on('lost_player', () => {
+         // this means the other player disconnected, we should let the player know, then disconnect ourselves and return home.
+         props.lostOpponent()
+      })
    }
 
    const cancelGame = () => {
@@ -58,7 +65,7 @@ const Home = (props) => {
 
    return (
       <div>
-          <Nav />
+         <Nav />
          <div style={{ textAlign: 'center' }}>
             <Grid container justify="center" style={{ margin: '5px' }}>
                <Grid item xs={6}>

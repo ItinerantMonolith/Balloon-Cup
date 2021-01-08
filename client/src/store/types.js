@@ -10,6 +10,7 @@ export const GAME_CARD_SELECT = 'GAME_CARD_SELECT'
 export const GAME_MSG_TOGGLE = 'GAME_MSG_TOGGLE'
 export const GAME_OVER = 'GAME_OVER'
 export const GAME_RESET = 'GAME_RESET'
+export const GAME_LOST_OPP = 'GAME_LOST_OPP'
 
 export const FORM_UPDATE_NAME = 'FORM_UPDATE_NAME'
 export const FORM_UPDATE_EMAIL = 'FORM_UPDATE_EMAIL'

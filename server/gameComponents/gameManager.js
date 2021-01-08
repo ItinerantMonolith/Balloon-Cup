@@ -8,13 +8,26 @@ class GameManager {
 
    disconnectPlayer(socket) {
       // for now, just remove the player from the array
-      // +== be more graceful about disconnections if we are in game
       const index = this.players.findIndex(
          (player) => player.socket.id === socket.id
       )
-      if (index >= 0) this.players.splice(index, 1)
-   }
+      if (index >= 0) {
+         const player = this.players[index]
+         // if the player is in a game that is not over, we should let the other player know to disconnect, then kill the game.
+         if (player.game && !player.game.isOver) {
+            const otherSocket = player.game.getOtherSocket(player.id)
+            if (otherSocket) {
+                otherSocket.emit(
+                  'lost_player',
+                  'Other Player Disconnected'
+               )
+            }
+         }
 
+         player.game = null
+         this.players.splice(index, 1)
+      }
+   }
 
    addPlayer(socket) {
       const player = {
@@ -33,7 +46,6 @@ class GameManager {
          this.disconnectPlayer(socket)
       })
 
-
       this.players.forEach((e) => console.log(e.id))
       this.checkForPair()
    }
@@ -46,22 +58,21 @@ class GameManager {
       if (available.length < 2) return
 
       const game = new Game()
-      
+
       let playerOrder = []
       this.players[available[0]].status = 'PLAYING'
       this.players[available[0]].game = game
       this.players[available[1]].status = 'PLAYING'
       this.players[available[1]].game = game
-      
+
       Math.random() > 0.5 ? (playerOrder = [0, 1]) : (playerOrder = [1, 0])
-      
+
       await game.launch([
          this.players[available[playerOrder[0]]],
          this.players[available[playerOrder[1]]],
       ])
 
-      this.games.push(game)
-
+      //   this.games.push(game)
    }
 
    getSocketByID(id) {

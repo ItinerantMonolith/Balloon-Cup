@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 3001
 const SOCKET_PORT = process.env.SOCKET_PORT || 3002
 
 const GameManager = require('./gameComponents/gameManager')
-// import GameManager from './gameComponents/gameManager'
 
 const app = express()
 
@@ -20,27 +19,13 @@ const options = {
 } // revisit this +==
 const io = socketIo(server, options)
 
-// for basic socket testing for now.
-let interval 
 
 const gameManager = new GameManager()
 
 io.on('connection', (socket) => {
-   console.log('we have a connection')
    gameManager.addPlayer( socket )
-
-//    socket.on("disconnect", () => {
-//     console.log("Client disconnected");
-//     clearInterval(interval);
-//   });
 });
 
-// this is for socket testing
-const getApiAndEmit = socket => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
-};
 
 // Require Middleware
 const logger = require('morgan')

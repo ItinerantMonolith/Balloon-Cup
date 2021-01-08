@@ -15,7 +15,8 @@ const initialState = {
    id: '',
    name: '',
    email: '',
-   authenticated: false,
+   token: localStorage.getItem('token'),
+   isAuthenticated: (localStorage.getItem('token')),
    formName: '',
    formEmail: '',
    formPassword: '',
@@ -34,7 +35,7 @@ const UserReducer = (state = initialState, action) => {
          return { ...state, name: action.payload }
 
       case SET_AUTHENTICATED:
-         return { ...state, authenticated: action.payload }
+         return { ...state, isAuthenticated: action.payload }
 
       case FORM_UPDATE_NAME:
          return { ...state, formName: action.payload }

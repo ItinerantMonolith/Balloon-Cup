@@ -35,40 +35,30 @@ const Race = (props) => {
    const { me, opp } = props.gameState
 
    const lowDisp = (
-      <Grid container justify='space-evenly'>
-         <div className={`${styles.size25} ${styles.defaultText}`}>1</div>  
-         <div className={`${styles.size2} ${styles.defaultText}`}>2</div>  
-         <div className={`${styles.size15} ${styles.defaultText}`}>3</div>
-         <div className={`${styles.size1} ${styles.defaultText}`}></div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-         <div className={`${styles.size1} ${styles.defaultText}`}> </div>
+      <Grid container justify="space-between">
+         <div>
+            <Grid container justify="space-evenly">
+               <div className={`${styles.size25} ${styles.defaultText}`}>1</div>
+               <div className={`${styles.size2} ${styles.defaultText}`}>2</div>
+               <div className={`${styles.size15} ${styles.defaultText}`}>3</div>
+            </Grid>
+         </div>
          <div className={`${styles.size1} ${styles.defaultText}`}>13</div>
       </Grid>
    )
 
    const highDisp = (
-    <Grid container justify='space-evenly'>
-       <div className={`${styles.size1} ${styles.defaultText}`}>1</div>  
-       <div className={`${styles.size25} ${styles.defaultText}`}></div>  
-       <div className={`${styles.size2} ${styles.defaultText}`}></div>
-       <div className={`${styles.size15} ${styles.defaultText}`}></div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size1} ${styles.defaultText}`}> </div>
-       <div className={`${styles.size15} ${styles.defaultText}`}>11 </div>
-       <div className={`${styles.size2} ${styles.defaultText}`}>12 </div>
-       <div className={`${styles.size25} ${styles.defaultText}`}>13</div>
-    </Grid>
- )
+      <Grid container justify="space-between">
+         <div className={`${styles.size1} ${styles.defaultText}`}>1</div>
+         <div>
+            <Grid container justify="space-evenly">
+               <div className={`${styles.size15} ${styles.defaultText}`}>11</div>
+               <div className={`${styles.size2} ${styles.defaultText}`}>12</div>
+               <div className={`${styles.size25} ${styles.defaultText}`}>13</div>
+            </Grid>
+         </div>
+      </Grid>
+   )
 
    return (
       <Grid container item xs={12} spacing={1} alignItems="center">
@@ -91,7 +81,7 @@ const Race = (props) => {
                      justify="space-between"
                      className={styles.tileContainer}
                   >
-                     { race.isLow ? lowDisp : highDisp }
+                     {race.isLow ? lowDisp : highDisp}
                      <Grid container justify="space-evenly">
                         {race.cubes.map((e, i) => (
                            <Cube cubeCount={-1} cubeColor={e.color} />

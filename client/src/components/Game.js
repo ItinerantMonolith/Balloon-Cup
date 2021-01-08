@@ -33,6 +33,12 @@ const Game = (props) => {
       }
    }
 
+   const handleLost = () => {
+      props.gameState.connection.disconnect()
+      props.resetGame()
+      props.history.push('/')
+   }
+
    return (
       <Grid container spacing={1}>
          <Grid item xs={2}>
@@ -63,8 +69,14 @@ const Game = (props) => {
                   </div>
                ) : null}
             </Dialog>
+            <Dialog open={props.gameState.lostOpponent} onClose={handleLost}>
+               Your opponent has disconnected. You will be returned to the
+               lobby.
+            </Dialog>
             <Grid item xs={5}>
-               <div className={`${styles.size25} ${styles.defaultText} ${styles.prizeCard}`}>
+               <div
+                  className={`${styles.size25} ${styles.defaultText} ${styles.prizeCard}`}
+               >
                   Your Race Cards
                </div>
             </Grid>
@@ -76,13 +88,17 @@ const Game = (props) => {
                      YOUR TURN
                   </div>
                ) : (
-                  <div className={`${styles.defaultText} ${styles.size15} ${styles.oppTurn}`}>
+                  <div
+                     className={`${styles.defaultText} ${styles.size15} ${styles.oppTurn}`}
+                  >
                      {props.gameState.players[props.gameState.opp].name}'s TURN
                   </div>
                )}
             </Grid>
             <Grid item xs={5}>
-               <div className={`${styles.size25} ${styles.defaultText} ${styles.prizeCard}`}>
+               <div
+                  className={`${styles.size25} ${styles.defaultText} ${styles.prizeCard}`}
+               >
                   {props.gameState.players[props.gameState.opp].name}'s Race
                   Cards
                </div>

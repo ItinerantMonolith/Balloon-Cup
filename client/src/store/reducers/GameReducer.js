@@ -7,6 +7,7 @@ import {
    GAME_MSG_TOGGLE,
    GAME_OVER,
    GAME_RESET,
+   GAME_LOST_OPP
 } from '../types'
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
    gameActions: [],
    hasMessage: false,
    gameTurn: 0,
+   lostOpponent: false,
 }
 
 const GameReducer = (state = initialState, action) => {
@@ -54,6 +56,9 @@ const GameReducer = (state = initialState, action) => {
 
       case GAME_RESET:
          return { ...state, ...initialState }
+
+      case GAME_LOST_OPP:
+         return { ...state, lostOpponent: true }
 
       case GAME_MSG_TOGGLE:
          return {

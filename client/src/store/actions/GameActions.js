@@ -6,7 +6,8 @@ import {
    GAME_CARD_SELECT,
    GAME_MSG_TOGGLE,
    GAME_OVER, 
-   GAME_RESET
+   GAME_RESET,
+   GAME_LOST_OPP
 } from '../types'
 
 // import { } from '../../services/UserService'
@@ -49,5 +50,10 @@ export const GameOver = () => ({
 
 export const ResetGame = () => ({
     type: GAME_RESET,
+    payload: ''
+})
+
+export const LostOpponent = () => ({
+    type: GAME_LOST_OPP,
     payload: ''
 })

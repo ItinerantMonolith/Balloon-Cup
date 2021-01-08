@@ -16,6 +16,7 @@ class Game {
       this.nextPlayer = 0
       this.gameTurn = 1
       this.store = new GameStore()
+      this.isOver = false
    }
 
    gameState(forPlayer) {
@@ -52,6 +53,7 @@ class Game {
    }
 
    sendGameMessage(action) {
+       // we transmit on game at startup and after each turn
       this.sockets[0].emit('game', {
          action: action,
          gameState: this.gameState(0),
@@ -63,6 +65,7 @@ class Game {
    }
 
    initSockets() {
+       // we listen on game_turn for the clients to send us their turns.
       this.sockets[0].on('game_turn', (gameTurn) =>
          this.processTurn(gameTurn, 0)
       )
@@ -243,7 +246,7 @@ class Game {
       })
       // send out the gameState
       this.sendGameMessage('update')
-   }
+   }    // processTurn
 
    checkForTrophies(playerId) {
       let earnedTrophy = false
@@ -334,6 +337,7 @@ class Game {
          this.sendGameMessage('Game Over')
 
          this.store.endGame( winner )
+         this.isOver = true
          return true
       }
       return false
@@ -467,11 +471,19 @@ class Game {
             })
          })
       })
+      // now mark cards that are playable
       this.players.forEach((player) => {
          player.cards.forEach((card) => {
             card.validPlay = available[card.color]
          })
       })
+   }
+
+   getOtherSocket ( playerId ) {
+        if ( this.players[0].id === playerId ) 
+            return this.sockets[1]
+        else if ( this.players[1].id === playerId )
+            return this.sockets[0]
    }
 }
 

@@ -22,8 +22,8 @@ const useStyles = makeStyles({
             (props.card.id < 0 &&
                props.card.color === props.gameState.selectedColor)
          )
-            return '4px solid black'
-         else return '4px solid white'
+            return '3px solid black'
+         else return '3px solid white'
       },
    },
    cardValue: {

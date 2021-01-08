@@ -1,9 +1,15 @@
 import React from 'react'
-import { Grid, Paper, Card } from '@material-ui/core'
+import { Grid, Paper, Card, makeStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import Trophies from './Trophies'
 import myStyles from '../styles/myStyles'
-import Prizes from './Prizes'
+
+const useStyle = makeStyles ({
+    deck: {
+        width: '60px',
+        height: '40px'
+    }
+})
 
 const mapStateToProps = ({ gameState }) => {
    return { gameState }
@@ -11,12 +17,12 @@ const mapStateToProps = ({ gameState }) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      //    connectGame: (socket) => dispatch(ConnectToGame(socket)),
    }
 }
 
 const DeckDisplay = (props) => {
    const styles = myStyles()
+   const classes = useStyle()
 
    return (
       <Grid container spacing={6}>
@@ -40,15 +46,17 @@ const DeckDisplay = (props) => {
          <Grid item xs={12}>
             <Paper className={styles.prizeCard}>
                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                     <Card>Cards in Deck: {props.gameState.deck}</Card>
+                   <Grid xs></Grid>
+                  <Grid item xs={3}>
+                     <Card className={`${classes.deck} ${styles.defaultText}`}><div>Deck</div><div>{props.gameState.deck}</div></Card>
                   </Grid>
-                  <Grid item xs={4}>
-                     <Card>Cards in Discard: {props.gameState.discards}</Card>
+                  <Grid item xs={3}>
+                     <Card className={`${classes.deck} ${styles.defaultText}`}><div>Discard</div><div>{props.gameState.discards}</div></Card>
                   </Grid>
-                  <Grid item xs={4}>
-                     <Card>Cubes in Bag: {props.gameState.bag}</Card>
+                  <Grid item xs={3}>
+                     <Card className={`${classes.deck} ${styles.defaultText}`}><div>Cubes</div><div>{props.gameState.bag}</div></Card>
                   </Grid>
+                  <Grid xs></Grid>
                </Grid>
             </Paper>
          </Grid>
