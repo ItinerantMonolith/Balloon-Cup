@@ -13,6 +13,18 @@ const myStyles = makeStyles({
       fontFamily: "'Yeon Sung', cursive",
       textAlign: 'center',
    },
+   dialogText: {
+    cursor: 'default',
+    WebkitTouchCallout: 'none' /* iOS Safari */,
+    WebkitUserSelect: 'none' /* Safari */,
+    KhtmlUserSelect: 'none' /* Konqueror HTML */,
+    MozUserSelect: 'none' /* Old versions of Firefox */,
+    MsUserSelect: 'none' /* Internet Explorer/Edge */,
+    UserSelect:
+       'none' /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */,
+    fontFamily: "'Yeon Sung', cursive",
+ },
+ 
    size1: {
       fontSize: '1em',
    },

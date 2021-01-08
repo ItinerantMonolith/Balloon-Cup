@@ -1,15 +1,9 @@
 import React from 'react'
-import { Grid, Paper, makeStyles } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
 
 import BalloonCard from './BalloonCard'
-import myStyles from '../styles/myStyles'
-
-const useStyles = makeStyles({
-   test: {
-      background: 'pink',
-   },
-})
+import myStyles from '../../styles/myStyles'
 
 const mapStateToProps = ({ gameState }) => {
    return { gameState }
@@ -21,30 +15,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const Hand = (props) => {
    const me = props.gameState.players[props.gameState.me]
-   const classes = useStyles()
    const styles = myStyles()
-
-   {
-      /* <Paper className={styles.prizeCard}>
-               <Grid container spacing={2} className={styles.gridCenter}>
-                  <Grid item xs={12}>
-                     <div className={`${styles.defaultText} ${styles.size2}`}>
-                        Trophies Available
-                     </div>
-                  </Grid>
-                  <Grid item xs={12}>
-                     <Trophies
-                        trophies={props.gameState.trophies}
-                        showCost={true}
-                     />
-                  </Grid>
-               </Grid>
-            </Paper> */
-   }
 
    return (
       <Paper className={styles.prizeCard}>
-         {/* <Grid container spacing={1} justify="center" className={styles.gridCenter}> */}
          <Grid container spacing={1} className={styles.gridCenter}>
             <Grid item xs={12}>
                <div className={`${styles.defaultText} ${styles.size2}`}>

@@ -1,11 +1,8 @@
 import React from 'react'
-import { Grid, Card } from '@material-ui/core'
-import { colorCubes } from '../colorMap'
+import { Grid } from '@material-ui/core'
 import Cube from './Cube'
-import myStyles from '../styles/myStyles'
 
 const Cubes = (props) => {
-    const styles = myStyles()
 
    return (
       <Grid container spacing={2}>

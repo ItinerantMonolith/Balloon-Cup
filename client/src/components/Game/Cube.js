@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, makeStyles } from '@material-ui/core'
-import { colorCubes } from '../colorMap'
-import myStyles from '../styles/myStyles'
+import { colorCubes } from '../../colorMap'
+import myStyles from '../../styles/myStyles'
 
 const useStyles = makeStyles({
    cube: {

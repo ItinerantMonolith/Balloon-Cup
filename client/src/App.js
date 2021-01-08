@@ -1,6 +1,6 @@
 import { Switch, Route, withRouter } from 'react-router-dom'
 import Home from './components/Home'
-import Game from './components/Game'
+import Game from './components/Game/Game'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import UpdateName from './pages/UpdateName'

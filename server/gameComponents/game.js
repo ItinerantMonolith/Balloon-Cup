@@ -53,7 +53,7 @@ class Game {
    }
 
    sendGameMessage(action) {
-       // we transmit on game at startup and after each turn
+      // we transmit on game at startup and after each turn
       this.sockets[0].emit('game', {
          action: action,
          gameState: this.gameState(0),
@@ -65,13 +65,27 @@ class Game {
    }
 
    initSockets() {
-       // we listen on game_turn for the clients to send us their turns.
-      this.sockets[0].on('game_turn', (gameTurn) =>
-         this.processTurn(gameTurn, 0)
+      // we listen on game_turn for the clients to send us their turns.
+      this.sockets[0].on('game_action', (gameAction) => {
+         if (gameAction.action === 'Turn') this.processTurn(gameAction.data, 0)
+         else if (gameAction.action === 'Concede') this.concede(0)
+      })
+
+      this.sockets[1].on('game_action', (gameAction) => {
+         if (gameAction.action === 'Turn') this.processTurn(gameAction.data, 1)
+         else if (gameAction.action === 'Concede') this.concede(1)
+      })
+   }
+
+   concede(playerRef) {
+      console.log(
+         `Player ${playerRef}: ${this.players[playerRef].id} concedes.`
       )
-      this.sockets[1].on('game_turn', (gameTurn) =>
-         this.processTurn(gameTurn, 1)
-      )
+      // so set the other player as the winner and the exit the game.
+      const winner = playerRef === 0 ? 1 : 0
+      this.store.endGame(winner)
+      this.isOver = true
+      this.sockets[winner].emit('game', { action: 'Concede', gameState: {} })
    }
 
    launch = async (players) => {
@@ -106,7 +120,7 @@ class Game {
             this.sockets[1] = players[0].socket
          }
       } else {
-         this.createGame(players)
+         await this.createGame(players)
          await this.store.createGame(players)
          await this.store.storeGame(this.gameState(-1), {})
       }
@@ -151,6 +165,8 @@ class Game {
       this.gameActions = []
       this.playerActions = [[], []]
 
+      this.gameActions.push(`Results of turn #${this.gameTurn}`)
+
       // remove the card from the player's hand
       const cardPlayed = this.players[playerId].cards.splice(
          this.players[playerId].cards.findIndex(
@@ -169,7 +185,7 @@ class Game {
             cardPlayed
          )} on ${this.players[gameTurn.targetSide].name}'s side of race #${
             gameTurn.targetRace + 1
-         }`
+         }.`
       )
       // draw a card, add it to the playerActions
       this.drawCards(playerId, 1)
@@ -245,8 +261,8 @@ class Game {
          raceSide: gameTurn.targetSide,
       })
       // send out the gameState
-      this.sendGameMessage('update')
-   }    // processTurn
+      this.sendGameMessage('Update')
+   } // processTurn
 
    checkForTrophies(playerId) {
       let earnedTrophy = false
@@ -313,7 +329,7 @@ class Game {
                      }
                   }
                }
-               this.gameActions.push( trophyMsg )
+               this.gameActions.push(trophyMsg)
                earnedTrophy = true
                keepChecking = true
                break
@@ -333,10 +349,10 @@ class Game {
          const winner = this.players[0].trophies.length > 2 ? 0 : 1
          this.gameActions.push(`${this.playerName(winner)} WON the game!`)
          this.nextPlayer = -1
-         this.playerActions = [[],[]]
+         this.playerActions = [[], []]
          this.sendGameMessage('Game Over')
 
-         this.store.endGame( winner )
+         this.store.endGame(winner)
          this.isOver = true
          return true
       }
@@ -479,11 +495,9 @@ class Game {
       })
    }
 
-   getOtherSocket ( playerId ) {
-        if ( this.players[0].id === playerId ) 
-            return this.sockets[1]
-        else if ( this.players[1].id === playerId )
-            return this.sockets[0]
+   getOtherSocket(playerId) {
+      if (this.players[0].id === playerId) return this.sockets[1]
+      else if (this.players[1].id === playerId) return this.sockets[0]
    }
 }
 

@@ -24,6 +24,7 @@ const initialState = {
    selectedColor: -1,
    connection: null,
    gameStatus: '',
+   gameActionHeader: '',
    gameActions: [],
    hasMessage: false,
    gameTurn: 0,
@@ -33,6 +34,7 @@ const initialState = {
 const GameReducer = (state = initialState, action) => {
    switch (action.type) {
       case GAME_SET_STATE:
+          const header = action.payload.gameActions.shift()
          return {
             ...state,
             players: action.payload.players,
@@ -42,6 +44,7 @@ const GameReducer = (state = initialState, action) => {
             races: action.payload.races,
             trophies: action.payload.trophies,
             nextPlayer: action.payload.nextPlayer,
+            gameActionHeader: header,
             gameActions: action.payload.gameActions,
             hasMessage: action.payload.gameActions.length ? true : false,
             gameTurn: action.payload.gameTurn,

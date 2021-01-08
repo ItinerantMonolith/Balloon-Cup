@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Cubes from './Cubes'
 import Trophies from './Trophies'
 
-import myStyles from '../styles/myStyles'
+import myStyles from '../../styles/myStyles'
 
 
 const mapStateToProps = ({ gameState }) => {

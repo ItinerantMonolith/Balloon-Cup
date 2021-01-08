@@ -6,6 +6,7 @@ body {
     background: url('../assets/Sky_BG.png');
     background-size: cover;
     /* background: paleturquoise; */
+    padding-top: 30px;
 
 }
 

@@ -11,8 +11,9 @@ import {
    SetMe,
    UpdateGame,
    GameOver,
-   LostOpponent,
 } from '../store/actions/GameActions'
+
+import { ToggleDisconnectDialog } from '../store/actions/DialogActions'
 
 const ENDPOINT = 'localhost:3002'
 
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
       setMe: (isFirst) => dispatch(SetMe(isFirst)),
       updateGame: (newGame) => dispatch(UpdateGame(newGame)),
       gameOver: () => dispatch(GameOver()),
-      lostOpponent: () => dispatch(LostOpponent()),
+      endGame: (endState) => dispatch(ToggleDisconnectDialog(endState)),
    }
 }
 
@@ -39,22 +40,44 @@ const Home = (props) => {
 
       socket.on('game', (data) => {
          console.log(data)
-         if (data.action === 'Start Game') {
-            // see if I'm player 0 or player 1
-            props.setMe(data.gameState.players[0].id === props.userState.id)
-            props.updateGame(data.gameState)
-            props.history.push('/game')
-         } else if (data.action === 'update') {
-            props.updateGame(data.gameState)
-         } else if (data.action === 'Game Over') {
-            props.updateGame(data.gameState)
-            props.gameOver()
-         }
-      })
+         switch (data.action) {
+            case 'Start Game':
+               // see if I'm player 0 or player 1
+               props.setMe(data.gameState.players[0].id === props.userState.id)
+               props.updateGame(data.gameState)
+               props.history.push('/game')
+               break
 
-      socket.on('lost_player', () => {
-         // this means the other player disconnected, we should let the player know, then disconnect ourselves and return home.
-         props.lostOpponent()
+            case 'Update':
+               props.updateGame(data.gameState)
+               break
+
+            case 'Game Over':
+               props.updateGame(data.gameState)
+               props.gameOver()
+               break
+
+            case 'Lost Player':
+               // this means the other player disconnected, we should let the player know, then disconnect ourselves and return home.
+               console.log('got lost player message')
+               props.endGame({
+                  dialogOpen: true,
+                  dialogMsg:
+                     "Your opponent's has disconnected, the game has been saved and you will be returned to the lobby.",
+               })
+               break
+
+            case 'Concede':
+               // this means the other player conceded the game
+               props.endGame({
+                  dialogOpen: true,
+                  dialogMsg:
+                     "Your opponent's has CONCEDED the game, so YOU WIN!  You will now be returned to the lobby.",
+               })
+               break
+
+            default:
+         }
       })
    }
 

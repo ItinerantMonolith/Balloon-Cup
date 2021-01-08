@@ -3,10 +3,9 @@ import { Grid, Card, makeStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import BalloonCard from './BalloonCard'
 import Cube from './Cube'
-import plains from '../assets/Plains.png'
-import mountains from '../assets/Mountains.png'
-import { colorCubes } from '../colorMap'
-import myStyles from '../styles/myStyles'
+import plains from '../../assets/Plains.png'
+import mountains from '../../assets/Mountains.png'
+import myStyles from '../../styles/myStyles'
 
 const useStyles = makeStyles({
    tile: {

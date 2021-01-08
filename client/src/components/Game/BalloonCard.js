@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, makeStyles } from '@material-ui/core'
-import { colorBalloons } from '../colorMap'
+import { colorBalloons } from '../../colorMap'
 import { connect } from 'react-redux'
-import { SelectCard } from '../store/actions/GameActions'
-import myStyles from '../styles/myStyles'
+import { SelectCard } from '../../store/actions/GameActions'
+import myStyles from '../../styles/myStyles'
 
 const useStyles = makeStyles({
    card: {
@@ -68,7 +68,7 @@ const BalloonCard = (props) => {
          targetCard: details.card,
       }
       props.selectCard(-1)
-      props.gameState.connection.emit('game_turn', gameTurn)
+      props.gameState.connection.emit('game_action', { action: 'Turn', data: gameTurn } )
    }
 
    const isSelected = card.id === props.gameState.selectedCard

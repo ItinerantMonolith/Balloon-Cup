@@ -10,8 +10,6 @@ import {
    GAME_LOST_OPP
 } from '../types'
 
-// import { } from '../../services/UserService'
-
 
 export const ConnectToGame = ( socket ) => ({
     type: GAME_CONNECT,

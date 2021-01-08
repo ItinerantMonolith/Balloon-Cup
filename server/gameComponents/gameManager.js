@@ -17,10 +17,10 @@ class GameManager {
          if (player.game && !player.game.isOver) {
             const otherSocket = player.game.getOtherSocket(player.id)
             if (otherSocket) {
-                otherSocket.emit(
-                  'lost_player',
-                  'Other Player Disconnected'
-               )
+               otherSocket.emit('game', {
+                  action: 'Lost Player',
+                  gameState: {},
+               })
             }
          }
 
