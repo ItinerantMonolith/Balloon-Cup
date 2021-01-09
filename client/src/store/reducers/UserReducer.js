@@ -9,6 +9,7 @@ import {
    FORM_UPDATE_OLD_PASSWORD,
    FORM_ERROR,
    FORM_CLEAR,
+   HOME_MODE,
 } from '../types'
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
    name: '',
    email: '',
    token: localStorage.getItem('token'),
-   isAuthenticated: (localStorage.getItem('token')),
+   isAuthenticated: localStorage.getItem('token') ? true : false,
    formName: '',
    formEmail: '',
    formPassword: '',
@@ -24,6 +25,7 @@ const initialState = {
    formOldPassword: '',
    formPasswordsMatch: false,
    formError: false,
+   mode: 'Home',
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -74,6 +76,9 @@ const UserReducer = (state = initialState, action) => {
             formPasswordsMatch: false,
             formError: false,
          }
+
+      case HOME_MODE:
+         return { ...state, mode: action.payload }
 
       default:
          return { ...state }

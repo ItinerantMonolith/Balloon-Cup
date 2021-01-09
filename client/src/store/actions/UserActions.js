@@ -8,7 +8,8 @@ import {
    FORM_UPDATE_PASSWORD2,
    FORM_UPDATE_OLD_PASSWORD,
    FORM_ERROR,
-   FORM_CLEAR
+   FORM_CLEAR,
+   HOME_MODE,
 } from '../types'
 
 import {
@@ -28,7 +29,7 @@ export const RegisterUser = (name, email, password) => async (dispatch) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            authenticated: true,
+            isAuthenticated: true,
          },
       })
    } catch (err) {
@@ -46,7 +47,7 @@ export const LoginUser = (email, password) => async (dispatch) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            authenticated: true,
+            isAuthenticated: true,
          },
       })
    } catch (err) {
@@ -55,7 +56,9 @@ export const LoginUser = (email, password) => async (dispatch) => {
    }
 }
 
-export const UpdateUserPassword = (email, oldPassword, newPassword) => async (dispatch) => {
+export const UpdateUserPassword = (email, oldPassword, newPassword) => async (
+   dispatch
+) => {
    try {
       await __UpdatePasword(email, oldPassword, newPassword)
 
@@ -66,7 +69,7 @@ export const UpdateUserPassword = (email, oldPassword, newPassword) => async (di
    }
 }
 
-export const UpdateUserName = (email, name) => async(dispatch) => {
+export const UpdateUserName = (email, name) => async (dispatch) => {
    try {
       const user = await __UpdateName(email, name)
 
@@ -79,6 +82,26 @@ export const UpdateUserName = (email, name) => async(dispatch) => {
       throw err
    }
 }
+
+export const VerifyUser = ( sessionInfo ) => ({
+    type: SET_USER,
+    payload: {
+        id: sessionInfo.id,
+        name: sessionInfo.name,
+        email: sessionInfo.email,
+        isAuthenticated: true
+    }
+})
+
+export const Logout = () => ({
+   type: SET_USER,
+   payload: {
+      id: '',
+      name: '',
+      email: '',
+      isAuthenticated: false,
+   },
+})
 
 export const setAuthenticated = (isAuthenticated) => ({
    type: SET_AUTHENTICATED,
@@ -105,9 +128,9 @@ export const FormUpdatePassword2 = (password) => ({
    payload: password,
 })
 
-export const FormUpdateOldPassword = (password ) => ({
-    type: FORM_UPDATE_OLD_PASSWORD,
-    payload: password
+export const FormUpdateOldPassword = (password) => ({
+   type: FORM_UPDATE_OLD_PASSWORD,
+   payload: password,
 })
 
 export const FormSetError = (err) => ({
@@ -116,7 +139,11 @@ export const FormSetError = (err) => ({
 })
 
 export const FormClear = () => ({
-    type: FORM_CLEAR,
-    payload: ''
+   type: FORM_CLEAR,
+   payload: '',
 })
 
+export const SetHomeMode = (mode) => ({
+   type: HOME_MODE,
+   payload: mode,
+})

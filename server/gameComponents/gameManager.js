@@ -30,6 +30,12 @@ class GameManager {
    }
 
    addPlayer(socket) {
+      // let's make sure this player isn't already connected...if so, ignore it.
+      if (this.players.find((e) => e.id === socket.handshake.query.userId)) {
+          console.log ( 'connection request from', socket.handshake.query.userId, 'REJECTED as they are already connected')
+          return
+      }
+
       const player = {
          id: socket.handshake.query.userId,
          socket: socket,

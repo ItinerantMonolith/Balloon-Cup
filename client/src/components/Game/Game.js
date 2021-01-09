@@ -149,12 +149,12 @@ const Game = (props) => {
             className={styles.dialogText}
             TransitionComponent={TransitionZoom}
          >
-            <DialogTitle>
+            <DialogTitle className={`${styles.dialogBG}`} >
                <div className={styles.defaultText}>
                   {props.gameState.gameActionHeader}
                </div>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent  className={`${styles.dialogBG}`} >
                <DialogContentText className={styles.dialogText}>
                   {props.gameState.gameActions.map((action, i) => (
                      <div key={i}>{action}</div>
@@ -178,12 +178,12 @@ const Game = (props) => {
          <Dialog
             open={props.dialogState.disconnectDialog}
             TransitionComponent={TransitionSlide}
-            onClose={handleExitGame}
+            onClose={handleExitGame} 
          >
-            <DialogTitle id="alert-dialog-slide-title">
+            <DialogTitle id="alert-dialog-slide-title" className={`${styles.dialogBG}`}>
                <div className={styles.defaultText}>Time to go</div>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent className={`${styles.dialogBG}`}>
                <DialogContentText className={styles.dialogText}>
                   {props.dialogState.disconnectMsg}
                </DialogContentText>
@@ -194,18 +194,18 @@ const Game = (props) => {
             TransitionComponent={TransitionSlide}
             onClose={handleCancel}
          >
-            <DialogTitle>
+            <DialogTitle className={`${styles.dialogBG}`}>
                <div className={styles.dialogText}>
                   {'Do you want to exit the game?'}
                </div>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent className={`${styles.dialogBG}`}>
                <DialogContentText className={styles.dialogText}>
                   You may exit the game, and it can be continued later against
                   the same player, or you may Concede the game.
                </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={`${styles.dialogBG}`}>
                <Button onClick={handleExit} className={styles.dialogText}>
                   Just Exit
                </Button>

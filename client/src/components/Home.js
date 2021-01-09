@@ -1,21 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Button, Icon, Grid, Paper } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
-import io from 'socket.io-client'
-import '../styles/Home.css'
-import Nav from './Nav'
-import {
-   ConnectToGame,
-   DisconnectFromGame,
-   SetMe,
-   UpdateGame,
-   GameOver,
-} from '../store/actions/GameActions'
+import MenuBalloon from './MenuBalloon'
+import Welcome from './Welcome'
+import Rules from './Rules'
+import Login from './Login'
+import Register from './Register'
+import Account from './Account'
+import StartGame from './StartGame'
+import myStyles from '../styles/myStyles'
+import { SetHomeMode, Logout, VerifyUser } from '../store/actions/UserActions'
+import { DisconnectFromGame } from '../store/actions/GameActions'
+import { __CheckSession } from '../services/UserService'
 
-import { ToggleDisconnectDialog } from '../store/actions/DialogActions'
 
-const ENDPOINT = 'localhost:3002'
 
 const mapStateToProps = ({ userState, gameState }) => {
    return { userState, gameState }
@@ -23,113 +22,101 @@ const mapStateToProps = ({ userState, gameState }) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      connectGame: (socket) => dispatch(ConnectToGame(socket)),
+      setHomeMode: (mode) => dispatch(SetHomeMode(mode)),
+      logout: () => dispatch(Logout()),
+      verifyUser: (sessionInfo) => dispatch(VerifyUser(sessionInfo)),
       disconnectGame: () => dispatch(DisconnectFromGame()),
-      setMe: (isFirst) => dispatch(SetMe(isFirst)),
-      updateGame: (newGame) => dispatch(UpdateGame(newGame)),
-      gameOver: () => dispatch(GameOver()),
-      endGame: (endState) => dispatch(ToggleDisconnectDialog(endState)),
    }
 }
 
 const Home = (props) => {
-   const playGame = () => {
-      const socket = io(ENDPOINT, { query: `userId=${props.userState.id}` })
+   const styles = myStyles()
 
-      props.connectGame(socket)
+   useEffect(() => {
+      verifyTokenValid()
+   }, [])
 
-      socket.on('game', (data) => {
-         console.log(data)
-         switch (data.action) {
-            case 'Start Game':
-               // see if I'm player 0 or player 1
-               props.setMe(data.gameState.players[0].id === props.userState.id)
-               props.updateGame(data.gameState)
-               props.history.push('/game')
-               break
-
-            case 'Update':
-               props.updateGame(data.gameState)
-               break
-
-            case 'Game Over':
-               props.updateGame(data.gameState)
-               props.gameOver()
-               break
-
-            case 'Lost Player':
-               // this means the other player disconnected, we should let the player know, then disconnect ourselves and return home.
-               console.log('got lost player message')
-               props.endGame({
-                  dialogOpen: true,
-                  dialogMsg:
-                     "Your opponent's has disconnected, the game has been saved and you will be returned to the lobby.",
-               })
-               break
-
-            case 'Concede':
-               // this means the other player conceded the game
-               props.endGame({
-                  dialogOpen: true,
-                  dialogMsg:
-                     "Your opponent's has CONCEDED the game, so YOU WIN!  You will now be returned to the lobby.",
-               })
-               break
-
-            default:
+   const verifyTokenValid = async () => {
+      const token = localStorage.getItem('token')
+      if (token) {
+         try {
+            const session = await __CheckSession()
+            props.verifyUser(session)
+         } catch (error) {
+            props.logout()
+            localStorage.clear()
          }
-      })
+      }
    }
 
-   const cancelGame = () => {
-      props.gameState.connection.disconnect()
-      props.disconnectGame()
+   const content = () => {
+      switch (props.userState.mode) {
+         case 'Home':
+            return <Welcome />
+
+         case 'Rules':
+            return <Rules />
+
+         case 'Login':
+            return <Login />
+
+         case 'Register':
+            return <Register />
+
+         case 'Logout':
+            localStorage.clear()
+            props.logout()
+            props.setHomeMode('Home')
+            break
+
+         case 'Account':
+            return <Account />
+
+         case 'Play':
+            return <StartGame />
+
+         default:
+            return <div>NOTHING</div>
+      }
    }
 
    return (
       <div>
-         <Nav />
+         <Grid container spacing={3} style={{ height: '300px' }}>
+            <Grid item xs={2}></Grid>
+            <Grid container item xs direction="column" justify="flex-end">
+               <MenuBalloon color={0} action="Home" />
+            </Grid>
+            <Grid container item xs direction="column" justify="space-around">
+               <MenuBalloon color={1} action="Rules" />
+            </Grid>
+            <Grid item xs>
+               <MenuBalloon
+                  color={2}
+                  action={props.userState.isAuthenticated ? 'Play' : ''}
+               />
+            </Grid>
+            <Grid container item xs direction="column" justify="space-around">
+               <MenuBalloon
+                  color={3}
+                  action={props.userState.isAuthenticated ? 'Account' : 'Login'}
+               />
+            </Grid>
+            <Grid container item xs direction="column" justify="flex-end">
+               <MenuBalloon
+                  color={4}
+                  action={
+                     props.userState.isAuthenticated ? 'Logout' : 'Register'
+                  }
+               />
+            </Grid>
+            <Grid item xs={2}></Grid>
+         </Grid>
          <div style={{ textAlign: 'center' }}>
-            <Grid container justify="center" style={{ margin: '5px' }}>
+            <Grid container justify="center" style={{ margin: '20px auto' }}>
                <Grid item xs={6}>
-                  <Paper elevation={6}>
-                     <h1>Welcome to Balloon Cup!</h1>
-                     <h2>Put a cool description here!</h2>
-                     <p className="description">Lorem Ipsum!</p>
-                     {props.userState.authenticated ? (
-                        props.gameState.gameStatus === '' ? (
-                           <div style={{ margin: '10px' }}>
-                              <Button
-                                 onClick={playGame}
-                                 variant="contained"
-                                 endIcon={<Icon>person_add</Icon>}
-                                 style={{
-                                    margin: '0px 20px',
-                                    backgroundColor: '#9a9a9a',
-                                    color: 'white',
-                                 }}
-                              >
-                                 Play a Game
-                              </Button>
-                           </div>
-                        ) : (
-                           <div>
-                              <div>WAITING FOR GAME TO LAUNCH</div>
-                              <Button
-                                 onClick={cancelGame}
-                                 variant="contained"
-                                 endIcon={<Icon>cancel</Icon>}
-                                 style={{
-                                    margin: '0px 20px',
-                                    backgroundColor: '#9a9a9a',
-                                    color: 'white',
-                                 }}
-                              >
-                                 Cancel Game
-                              </Button>
-                           </div>
-                        )
-                     ) : null}
+                  <Paper elevation={12} className={`${styles.prizeCard} ${styles.mainBlock}`}>
+                     {content()}
                   </Paper>
                </Grid>
             </Grid>

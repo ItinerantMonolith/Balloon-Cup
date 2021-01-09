@@ -1,13 +1,14 @@
 import {
    GAME_SET_STATE,
    GAME_CONNECT,
+   GAME_CONNECT_PENDING,
    GAME_DISCONNECT,
    GAME_SET_ME,
    GAME_CARD_SELECT,
    GAME_MSG_TOGGLE,
    GAME_OVER,
    GAME_RESET,
-   GAME_LOST_OPP
+   GAME_LOST_OPP,
 } from '../types'
 
 const initialState = {
@@ -34,7 +35,7 @@ const initialState = {
 const GameReducer = (state = initialState, action) => {
    switch (action.type) {
       case GAME_SET_STATE:
-          const header = action.payload.gameActions.shift()
+         const header = action.payload.gameActions.shift()
          return {
             ...state,
             players: action.payload.players,
@@ -78,6 +79,9 @@ const GameReducer = (state = initialState, action) => {
 
       case GAME_CONNECT:
          return { ...state, connection: action.payload, gameStatus: 'PENDING' }
+
+      case GAME_CONNECT_PENDING:
+         return { ...state, gameStatus: 'CONNECTING' }
 
       case GAME_DISCONNECT:
          return { ...state, connection: null, gameStatus: '' }

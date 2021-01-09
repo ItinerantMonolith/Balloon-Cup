@@ -83,7 +83,7 @@ export const __UpdateName = async ( email, name ) => {
 // check that we have a valid token and refresh it
 export const __CheckSession = async () => {
    try {
-      const res = await ApiClient.get('/team/refresh/session')
+      const res = await ApiClient.get('/user/refresh/session')
       return res.data
    } catch (err) {
       throw err

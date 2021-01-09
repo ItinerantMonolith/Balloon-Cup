@@ -1,5 +1,6 @@
 import {
    GAME_CONNECT,
+   GAME_CONNECT_PENDING,
    GAME_DISCONNECT,
    GAME_SET_STATE,
    GAME_SET_ME,
@@ -14,6 +15,11 @@ import {
 export const ConnectToGame = ( socket ) => ({
     type: GAME_CONNECT,
     payload: socket
+})
+
+export const PendingConnect = () => ({
+    type: GAME_CONNECT_PENDING,
+    payload: ''
 })
 
 export const DisconnectFromGame = () => ( {
