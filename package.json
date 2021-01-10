@@ -7,7 +7,7 @@
     "dev": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "./node_modules/.bin/sequelize-cli db:migrate",
-    "start": "npm run build && cd server && npm run migrate && node server.js"
+    "start": "cd server && npm run migrate && node server.js"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,10 @@
     "react-router-dom": "^5.2.0",
     "sequelize": "^6.3.5",
     "socket.io": "^2.3.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
-    "sequelize-cli": "^6.2.0"
+    "nodemon": "^2.0.6"
   }
 }
