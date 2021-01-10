@@ -30,7 +30,7 @@ import { ToggleDisconnectDialog } from '../../store/actions/DialogActions'
 
 import myStyles from '../../styles/myStyles'
 
-const ENDPOINT = 'localhost:3002'
+const ENDPOINT = window.location.host
 
 const useStyles = makeStyles({
    card: {

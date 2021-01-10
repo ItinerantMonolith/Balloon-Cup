@@ -47,17 +47,17 @@ app.get('*', (req, res) =>
 )
 
 
-app.listen(PORT, async () => {
-   try {
-      console.log(`App listening on port: ${PORT}`)
-   } catch (error) {
-      throw new Error('Connection Error')
-   }
-})
+// app.listen(PORT, async () => {
+//    try {
+//       console.log(`App listening on port: ${PORT}`)
+//    } catch (error) {
+//       throw new Error('Connection Error')
+//    }
+// })
 
-server.listen(SOCKET_PORT, async () => {
+server.listen(PORT, async () => {
    try {
-      console.log(`server listening on port: ${SOCKET_PORT}`)
+      console.log(`server listening on port: ${PORT}`)
    } catch (error) {
       throw new Error('Connection Error')
    }
