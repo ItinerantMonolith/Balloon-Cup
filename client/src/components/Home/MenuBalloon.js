@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Card, makeStyles } from '@material-ui/core'
-import { colorBalloons } from '../colorMap'
-import myStyles from '../styles/myStyles'
-import { SetHomeMode } from '../store/actions/UserActions'
+import { colorBalloons } from '../../colorMap'
+import myStyles from '../../styles/myStyles'
+import { SetHomeMode } from '../../store/actions/UserActions'
 
 const useStyles = makeStyles({
    card: {

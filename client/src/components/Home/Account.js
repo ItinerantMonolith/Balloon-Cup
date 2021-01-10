@@ -5,7 +5,7 @@ import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
 import UpdateName from './UpdateName'
 import UpdatePassword from './UpdatePassword'
 
-import myStyles from '../styles/myStyles'
+import myStyles from '../../styles/myStyles'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }

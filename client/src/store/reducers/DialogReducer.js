@@ -1,10 +1,16 @@
-import { DIALOG_MSG, DIALOG_EXIT, DIALOG_DISCONNECT } from '../types'
+import {
+   DIALOG_MSG,
+   DIALOG_EXIT,
+   DIALOG_DISCONNECT,
+   DIALOG_RULES,
+} from '../types'
 
 const initialState = {
    msgDialog: false,
    exitDialog: false,
    disconnectDialog: false,
-   disconnectMsg: ''
+   disconnectMsg: '',
+   rulesDialog: false,
 }
 
 const DialogReducer = (state = initialState, action) => {
@@ -25,7 +31,13 @@ const DialogReducer = (state = initialState, action) => {
          return {
             ...state,
             disconnectDialog: action.payload.dialogOpen,
-            disconnectMsg: action.payload.dialogMsg
+            disconnectMsg: action.payload.dialogMsg,
+         }
+
+      case DIALOG_RULES:
+         return {
+            ...state,
+            rulesDialog: action.payload,
          }
 
       default:

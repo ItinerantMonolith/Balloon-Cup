@@ -1,4 +1,9 @@
-import { DIALOG_DISCONNECT, DIALOG_EXIT, DIALOG_MSG } from '../types'
+import {
+   DIALOG_DISCONNECT,
+   DIALOG_EXIT,
+   DIALOG_MSG,
+   DIALOG_RULES,
+} from '../types'
 
 export const ToggleMsgDialog = (showDlg) => ({
    type: DIALOG_MSG,
@@ -10,7 +15,12 @@ export const ToggleExitDialog = (showDlg) => ({
    payload: showDlg,
 })
 
-export const ToggleDisconnectDialog = ( disconnectState ) => ({
+export const ToggleDisconnectDialog = (disconnectState) => ({
    type: DIALOG_DISCONNECT,
    payload: disconnectState,
+})
+
+export const ToggleRulesDialog = (showDlg) => ({
+   type: DIALOG_RULES,
+   payload: showDlg,
 })

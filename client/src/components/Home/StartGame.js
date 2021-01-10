@@ -21,14 +21,14 @@ import {
    SetMe,
    UpdateGame,
    GameOver,
-} from '../store/actions/GameActions'
+} from '../../store/actions/GameActions'
 import Welcome from './Welcome'
-import { colorBalloons } from '../colorMap'
+import { colorBalloons } from '../../colorMap'
 
-import { SetHomeMode } from '../store/actions/UserActions'
-import { ToggleDisconnectDialog } from '../store/actions/DialogActions'
+import { SetHomeMode } from '../../store/actions/UserActions'
+import { ToggleDisconnectDialog } from '../../store/actions/DialogActions'
 
-import myStyles from '../styles/myStyles'
+import myStyles from '../../styles/myStyles'
 
 const ENDPOINT = 'localhost:3002'
 

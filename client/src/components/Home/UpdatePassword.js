@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FormControl, Button, Icon, Grid, TextField } from '@material-ui/core'
-import {
-   UpdateUserPassword,
-   SetHomeMode,
-   FormSetError,
-} from '../store/actions/UserActions'
+import { UpdateUserPassword, SetHomeMode } from '../../store/actions/UserActions'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }
@@ -25,7 +21,6 @@ function UpdatePassword(props) {
    const [password, setPassword] = useState('')
    const [password2, setPassword2] = useState('')
    const [formError, setFormError] = useState(false)
-   const [passwordsMatch, setPasswordsMatch] = useState(true)
 
    const handleOldPassword = ({ target }) => {
       setPasswordOld(target.value)
@@ -43,7 +38,7 @@ function UpdatePassword(props) {
       e.preventDefault()
       setFormError(false)
       // make sure we have at least some appropriate data...
-      if (password.length && passwordsMatch) {
+      if (password.length && password === password2) {
          try {
             await props.updateUserPassword(
                props.userState.email,

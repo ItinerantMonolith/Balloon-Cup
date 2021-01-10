@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import myStyles from '../styles/myStyles'
+import myStyles from '../../styles/myStyles'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }

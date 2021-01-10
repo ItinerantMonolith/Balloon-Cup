@@ -1,21 +1,14 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 import {
    Grid,
-   Dialog,
-   DialogTitle,
-   DialogContent,
-   DialogContentText,
-   DialogActions,
-   Button,
-   Slide,
-   Zoom,
 } from '@material-ui/core'
 import { connect } from 'react-redux'
 import Hand from './Hand'
 import Race from './Race'
 import DeckDisplay from './DeckDisplay'
 import Prizes from './Prizes'
+import Dialogs from './Dialogs'
 import { MsgToggle, ResetGame } from '../../store/actions/GameActions'
 import {
    ToggleExitDialog,
@@ -36,55 +29,8 @@ const mapDispatchToProps = (dispatch) => {
    }
 }
 
-const TransitionSlide = forwardRef(function Transition(props, ref) {
-   return <Slide direction="up" ref={ref} {...props} />
-})
-
-const TransitionZoom = forwardRef(function Transition(props, ref) {
-   return <Zoom ref={ref} {...props} />
-})
-
 const Game = (props) => {
    const styles = myStyles()
-
-   const handleClose = () => {
-      props.msgToggle(false)
-      if (props.gameState.gameStatus === 'GAME OVER') {
-         props.gameState.connection.disconnect()
-         props.resetGame()
-         props.history.push('/')
-      }
-   }
-
-   const handleExitGame = () => {
-      props.gameState.connection.disconnect()
-      props.endGame({ dialogOpen: false, dialogMsg: '' })
-      props.resetGame()
-      props.history.push('/')
-   }
-
-   const handleCancel = () => {
-      props.toggleExitDialog(false)
-   }
-
-   const handleExit = () => {
-      props.toggleExitDialog(false)
-      handleExitGame()
-   }
-
-   const handleConcede = () => {
-      props.gameState.connection.emit('game_action', {
-         action: 'Concede',
-         data: {},
-      })
-
-      props.toggleExitDialog(false)
-      props.endGame({
-         dialogOpen: true,
-         dialogMsg:
-            'You have CONCEDED this game.  You will be returned to the lobby.',
-      })
-   }
 
    return (
       <Grid container spacing={1}>
@@ -143,82 +89,7 @@ const Game = (props) => {
                </Grid>
             </Grid>
          </Grid>
-         <Dialog
-            open={props.gameState.hasMessage}
-            onClose={handleClose}
-            className={styles.dialogText}
-            TransitionComponent={TransitionZoom}
-            onClick={handleClose}
-            disableBackdropClick={true}
-         >
-            <DialogTitle className={`${styles.dialogBG}`} >
-               <div className={styles.defaultText}>
-                  {props.gameState.gameActionHeader}
-               </div>
-            </DialogTitle>
-            <DialogContent  className={`${styles.dialogBG}`} >
-               <DialogContentText className={styles.dialogText}>
-                  {props.gameState.gameActions.map((action, i) => (
-                     <div key={i}>{action}</div>
-                  ))}
-                  {props.gameState.nextPlayer >= 0 ? (
-                     <div>
-                        It is{' '}
-                        {props.gameState.me === props.gameState.nextPlayer
-                           ? 'YOUR'
-                           : `${
-                                props.gameState.players[
-                                   props.gameState.nextPlayer
-                                ].name
-                             }'s`}{' '}
-                        turn.
-                     </div>
-                  ) : null}
-               </DialogContentText>
-            </DialogContent>
-         </Dialog>
-         <Dialog
-            open={props.dialogState.disconnectDialog}
-            TransitionComponent={TransitionSlide}
-            onClose={handleExitGame} 
-         >
-            <DialogTitle id="alert-dialog-slide-title" className={`${styles.dialogBG}`}>
-               <div className={styles.defaultText}>Time to go</div>
-            </DialogTitle>
-            <DialogContent className={`${styles.dialogBG}`}>
-               <DialogContentText className={styles.dialogText}>
-                  {props.dialogState.disconnectMsg}
-               </DialogContentText>
-            </DialogContent>
-         </Dialog>
-         <Dialog
-            open={props.dialogState.exitDialog}
-            TransitionComponent={TransitionSlide}
-            onClose={handleCancel}
-         >
-            <DialogTitle className={`${styles.dialogBG}`}>
-               <div className={styles.dialogText}>
-                  {'Do you want to exit the game?'}
-               </div>
-            </DialogTitle>
-            <DialogContent className={`${styles.dialogBG}`}>
-               <DialogContentText className={styles.dialogText}>
-                  You may exit the game, and it can be continued later against
-                  the same player, or you may Concede the game.
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions className={`${styles.dialogBG}`}>
-               <Button onClick={handleExit} className={styles.dialogText}>
-                  Just Exit
-               </Button>
-               <Button onClick={handleConcede} className={styles.dialogText}>
-                  Concede, I'm a goner
-               </Button>
-               <Button onClick={handleCancel} className={styles.dialogText}>
-                  Cancel
-               </Button>
-            </DialogActions>
-         </Dialog>
+         <Dialogs />
       </Grid>
    )
 }

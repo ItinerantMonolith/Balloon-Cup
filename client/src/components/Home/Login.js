@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FormControl, Button, Icon, Grid, TextField } from '@material-ui/core'
-import { LoginUser, SetHomeMode } from '../store/actions/UserActions'
+import { LoginUser, SetHomeMode } from '../../store/actions/UserActions'
 
-import myStyles from '../styles/myStyles'
+import myStyles from '../../styles/myStyles'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }

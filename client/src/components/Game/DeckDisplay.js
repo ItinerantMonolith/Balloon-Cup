@@ -1,15 +1,12 @@
 import React from 'react'
-import {
-   Grid,
-   Paper,
-   Card,
-   makeStyles,
-   Button
-} from '@material-ui/core'
+import { Grid, Paper, Card, makeStyles, Button } from '@material-ui/core'
 import { connect } from 'react-redux'
 import Trophies from './Trophies'
 import myStyles from '../../styles/myStyles'
-import { ToggleExitDialog } from '../../store/actions/DialogActions'
+import {
+   ToggleExitDialog,
+   ToggleRulesDialog,
+} from '../../store/actions/DialogActions'
 
 const useStyle = makeStyles({
    deck: {
@@ -25,16 +22,13 @@ const mapStateToProps = ({ gameState, dialogState }) => {
 const mapDispatchToProps = (dispatch) => {
    return {
       showExitDlg: () => dispatch(ToggleExitDialog(true)),
+      showRulesDialog: () => dispatch(ToggleRulesDialog(true)),
    }
 }
 
 const DeckDisplay = (props) => {
    const styles = myStyles()
    const classes = useStyle()
-
-   const openExit = () => {
-      props.showExitDlg()
-   }
 
    return (
       <Grid container spacing={6}>
@@ -82,12 +76,20 @@ const DeckDisplay = (props) => {
             </Paper>
          </Grid>
          <Grid item xs={12}>
-            <Paper
-               className={`${styles.prizeCard} ${styles.defaultText}`}
-               onClick={openExit}
-            >
-               <Grid container spacing={2} justify="center">
-                  <Button className={styles.defaultText}>Exit Game</Button>
+            <Paper className={`${styles.prizeCard} ${styles.defaultText}`}>
+               <Grid container spacing={2} justify="space-evenly">
+                  <Button
+                     className={styles.defaultText}
+                     onClick={() => props.showRulesDialog()}
+                  >
+                     View Rules
+                  </Button>
+                  <Button
+                     className={styles.defaultText}
+                     onClick={() => props.showExitDlg()}
+                  >
+                     Exit Game
+                  </Button>
                </Grid>
             </Paper>
          </Grid>

@@ -28,6 +28,10 @@ const myStyles = makeStyles({
    mainBlock: {
       height: '400px',
    },
+   rulesDialog: {
+       height: '500px',
+       backgroundColor: 'skyblue',
+   },
    size1: {
       fontSize: '1em',
    },

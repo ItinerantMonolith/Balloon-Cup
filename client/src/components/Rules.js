@@ -35,6 +35,11 @@ const ruleText = [
                   <li>Gray Cards: 1, 4, 7, 10, 13</li>
                </ul>
             </li>
+            <li>5 Trophies (1 in each color)</li>
+            <li>
+               4 Race/Hop tiles, which are each Plains on one side and Mountains
+               on the other.
+            </li>
          </ul>
       ),
    },
@@ -121,8 +126,7 @@ const ruleText = [
             <li>
                If the sums of the balloon cards on both sides of the tile is the
                same, the player who placed the last card wins and takes the
-               victory cubes there. It matters not on which side the last card
-               is placed.
+               victory cubes there. 
             </li>
             <li>The winner takes the victory cubes from the tile.</li>
             <li>
@@ -179,6 +183,51 @@ const ruleText = [
       text:
          'The game ends immediately when a player takes a third trophy card. This player is the winner!',
    },
+   {
+      title: 'About the Original',
+      text: (
+         <div>
+            <div>
+               This version of the game is based on the original game of{' '}
+               <a href="https://boardgamegeek.com/boardgame/5716/balloon-cup" target='_blank' rel="noopener noreferrer">
+                  Balloon Cup
+               </a>
+               , designed by{' '}
+               <a href="https://www.boardgamegeek.com/boardgamedesigner/2118/stephen-glenn" target='_blank' rel="noopener noreferrer">
+                  Stephen Glenn
+               </a>{' '}
+               and published in 2003 by{' '}
+               <a href="https://www.kosmos.de/" target='_blank' rel="noopener noreferrer">KOSMOS</a>.
+            </div>
+            <div>
+               My implementation of the game is just for fun and done as an
+               exercise in full stack software development, not for commercial
+               use. It does not follow the original game exactly*, but I tried
+               to stick to the original rules as closely as possible.
+            </div>
+            <div>
+               Enjoy the game!,{' '}<br />
+               <a href="https://www.linkedin.com/in/walker-aaron/" target='_blank' rel="noopener noreferrer">-Aaron</a>
+            </div>
+            <br />
+            <div>
+               <div>
+                  * For those who are curious, I changed two rules in the
+                  interest of implementation.
+               </div>
+               <div>
+                  1. Discards are automatic and include the entire hand if a
+                  player cannot play, as opposed to the real game, in which the
+                  player chooses which cards to discard.
+               </div>
+               <div>
+                  2. When acquiring trophyies, the 3-for-1 trade of extra cubes
+                  is mandatory in this implementation.
+               </div>
+            </div>
+         </div>
+      ),
+   },
 ]
 
 const Rules = (props) => {
@@ -187,12 +236,12 @@ const Rules = (props) => {
    const styles = myStyles()
 
    return (
-      <div style={{ padding: '2% 5%', height: '100%' }}>
+      <div style={{ padding: '2% 3%', height: '100%' }}>
          <Grid
             container
             direction="column"
             justify="space-between"
-            style={{ height: '90%' }}
+            style={{ height: '95%' }}
          >
             <div>
                <div

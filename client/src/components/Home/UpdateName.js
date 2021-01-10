@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FormControl, Button, Icon, Grid, TextField } from '@material-ui/core'
-import { UpdateUserName, SetHomeMode } from '../store/actions/UserActions'
+import { UpdateUserName, SetHomeMode } from '../../store/actions/UserActions'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }

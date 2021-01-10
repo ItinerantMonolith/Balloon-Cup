@@ -18,4 +18,5 @@ export const GAME_LOST_OPP = 'GAME_LOST_OPP'
 export const DIALOG_EXIT = 'DIALOG_EXIT'
 export const DIALOG_DISCONNECT = 'DIALOG_DISCONNECT'
 export const DIALOG_MSG = 'DIALOG_MSG'
+export const DIALOG_RULES = 'DIALOG_RULES'
 

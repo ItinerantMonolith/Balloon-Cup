@@ -1,5 +1,5 @@
 import { Switch, Route, withRouter } from 'react-router-dom'
-import Home from './components/Home'
+import Home from './components/Home/Home'
 import Game from './components/Game/Game'
 import './styles/App.css'
 
