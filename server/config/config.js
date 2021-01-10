@@ -17,14 +17,11 @@ module.exports = {
       }
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    database: process.env.RDS_DB_NAME,
+    host: process.env.RDS_HOSTNAME,
     dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        rejectUnauthorized: false,
-        require: true
-      }
-    },
     define: {
         "underscored": true
       }

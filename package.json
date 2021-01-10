@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "./node_modules/.bin/sequelize-cli db:migrate",
+    "start": "npm run build && cd server && npm run migrate && node server.js"
   },
   "repository": {
     "type": "git",
