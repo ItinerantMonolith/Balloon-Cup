@@ -50,15 +50,15 @@ Board Layout
 
 ### User Stories - MVP
 The user must be able to...
-- [] Register an account
-- [] Login
-- [] Update User Name
-- [] Update User Password
-- [] choose to play a game
-- [] See the board
-- [] see the hand of cards
-- [] play cards / select races
-- [] Follow all game rules
+- [x] Register an account
+- [x] Login
+- [x] Update User Name
+- [x] Update User Password
+- [x] choose to play a game
+- [x] See the board
+- [x] see the hand of cards
+- [x] play cards / select races
+- [x] Follow all game rules
 
 
 ***

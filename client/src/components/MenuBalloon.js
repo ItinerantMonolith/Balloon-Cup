@@ -41,7 +41,7 @@ const mapStateToProps = ({ userState }) => {
     const styles = myStyles()
 
     return (
-        <Card className={`${classes.card} ${styles.defaultText}`} onClick={() => props.setHomeMode( props.action )}>
+        <Card className={`${classes.card} ${styles.defaultText}`} onClick={props.action ? () => props.setHomeMode( props.action ): null}>
             <div className={`${classes.cardText} ${props.action==='Play' ? "blink_me" : "" }`}>{props.action}</div>
         </Card>
 

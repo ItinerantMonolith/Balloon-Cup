@@ -49,9 +49,8 @@ function Account(props) {
                    ) : (
                   <UpdatePassword />
                )}
-
                {props.userState.formError ? (
-                  <p>Error While Logging In</p>
+                  <p style={{ color: 'red' }}>Error updating Password</p>
                ) : (
                   <p></p>
                )}

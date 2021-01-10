@@ -14,8 +14,6 @@ import { SetHomeMode, Logout, VerifyUser } from '../store/actions/UserActions'
 import { DisconnectFromGame } from '../store/actions/GameActions'
 import { __CheckSession } from '../services/UserService'
 
-
-
 const mapStateToProps = ({ userState, gameState }) => {
    return { userState, gameState }
 }
@@ -115,7 +113,10 @@ const Home = (props) => {
          <div style={{ textAlign: 'center' }}>
             <Grid container justify="center" style={{ margin: '20px auto' }}>
                <Grid item xs={6}>
-                  <Paper elevation={12} className={`${styles.prizeCard} ${styles.mainBlock}`}>
+                  <Paper
+                     elevation={12}
+                     className={`${styles.prizeCard} ${styles.mainBlock}`}
+                  >
                      {content()}
                   </Paper>
                </Grid>

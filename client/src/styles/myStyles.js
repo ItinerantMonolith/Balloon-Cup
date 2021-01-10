@@ -26,7 +26,7 @@ const myStyles = makeStyles({
       textAlign: 'left',
    },
    mainBlock: {
-      height: '300px',
+      height: '400px',
    },
    size1: {
       fontSize: '1em',

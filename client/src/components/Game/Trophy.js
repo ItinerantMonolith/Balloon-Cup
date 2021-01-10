@@ -10,9 +10,11 @@ const useStyles = makeStyles({
       borderRadius: 15,
       width: '80px',
       height: '120px',
+      backgroundColor: 'transparent',
+      boxShadow: 'none'
    },
    trophyCost: {
-      margin: '15px auto',
+      margin: '22px auto',
    },
 })
 

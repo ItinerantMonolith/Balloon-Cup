@@ -1,18 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import {
-   FormControl,
-   Button,
-   Icon,
-   Grid,
-   TextField,
-} from '@material-ui/core'
-import {
-   UpdateUserName,
-   FormUpdateName,
-   FormClear,
-   SetHomeMode
-} from '../store/actions/UserActions'
+import { FormControl, Button, Icon, Grid, TextField } from '@material-ui/core'
+import { UpdateUserName, SetHomeMode } from '../store/actions/UserActions'
 
 const mapStateToProps = ({ userState }) => {
    return { userState }
@@ -21,23 +10,21 @@ const mapStateToProps = ({ userState }) => {
 const mapDispatchToProps = (dispatch) => {
    return {
       updateName: (email, name) => dispatch(UpdateUserName(email, name)),
-      formUpdateName: (name) => dispatch(FormUpdateName(name)),
-      clearForm: () => dispatch(FormClear()),
-      setHomeMode: (mode) => dispatch(SetHomeMode(mode))
+      setHomeMode: (mode) => dispatch(SetHomeMode(mode)),
    }
 }
 
 function UpdateName(props) {
+   const [name, setName] = useState('')
    const handleName = ({ target }) => {
-      props.formUpdateName(target.value)
+      setName(target.value)
    }
 
    const handleSubmit = async (e) => {
-    e.preventDefault()
-    props.updateName(props.userState.email, props.userState.formName)
-    props.clearForm()
-    props.setHomeMode('Home')
- }
+      e.preventDefault()
+      props.updateName(props.userState.email, name)
+      props.setHomeMode('Home')
+   }
 
    return (
       <Grid container justify="center" style={{ margin: '20px' }}>
@@ -46,7 +33,7 @@ function UpdateName(props) {
                placeholder="New Name"
                type="text"
                name="name"
-               value={props.userState.formName}
+               value={name}
                onChange={handleName}
             />
 

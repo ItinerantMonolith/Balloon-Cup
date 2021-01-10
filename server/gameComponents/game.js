@@ -187,8 +187,6 @@ class Game {
             gameTurn.targetRace + 1
          }.`
       )
-      // draw a card, add it to the playerActions
-      this.drawCards(playerId, 1)
 
       // set next player
       this.nextPlayer = this.otherPlayer(playerId)
@@ -224,8 +222,13 @@ class Game {
             }
          }
       }
+
+      // draw a card, add it to the playerActions
+      this.drawCards(playerId, 1)
+
       // increment the turn counter
       this.gameTurn++
+      
       // before the turn starts, make sure the current player is able to play cards
       //  if not, discard their hand and redraw (post-MVP implement the rule correctly)
       this.setValidPlays()

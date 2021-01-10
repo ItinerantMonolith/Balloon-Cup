@@ -28,7 +28,7 @@ const Prizes = (props) => {
             <Grid item >
                <div
                   className={`${styles.defaultText} ${styles.size2}`}
-               >{`${player.name}'s Prizes`}</div>
+               >{`${ playerId === props.gameState.me ? "Your" : player.name + "'s"} Prizes`}</div>
             </Grid>
 
             <Grid item >

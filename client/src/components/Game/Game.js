@@ -148,6 +148,8 @@ const Game = (props) => {
             onClose={handleClose}
             className={styles.dialogText}
             TransitionComponent={TransitionZoom}
+            onClick={handleClose}
+            disableBackdropClick={true}
          >
             <DialogTitle className={`${styles.dialogBG}`} >
                <div className={styles.defaultText}>

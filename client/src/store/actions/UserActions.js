@@ -2,13 +2,6 @@ import {
    SET_USER,
    SET_AUTHENTICATED,
    UPDATE_NAME,
-   FORM_UPDATE_NAME,
-   FORM_UPDATE_EMAIL,
-   FORM_UPDATE_PASSWORD,
-   FORM_UPDATE_PASSWORD2,
-   FORM_UPDATE_OLD_PASSWORD,
-   FORM_ERROR,
-   FORM_CLEAR,
    HOME_MODE,
 } from '../types'
 
@@ -106,41 +99,6 @@ export const Logout = () => ({
 export const setAuthenticated = (isAuthenticated) => ({
    type: SET_AUTHENTICATED,
    payload: isAuthenticated,
-})
-
-export const FormUpdateName = (name) => ({
-   type: FORM_UPDATE_NAME,
-   payload: name,
-})
-
-export const FormUpdateEmail = (email) => ({
-   type: FORM_UPDATE_EMAIL,
-   payload: email,
-})
-
-export const FormUpdatePassword = (password) => ({
-   type: FORM_UPDATE_PASSWORD,
-   payload: password,
-})
-
-export const FormUpdatePassword2 = (password) => ({
-   type: FORM_UPDATE_PASSWORD2,
-   payload: password,
-})
-
-export const FormUpdateOldPassword = (password) => ({
-   type: FORM_UPDATE_OLD_PASSWORD,
-   payload: password,
-})
-
-export const FormSetError = (err) => ({
-   type: FORM_ERROR,
-   payload: err,
-})
-
-export const FormClear = () => ({
-   type: FORM_CLEAR,
-   payload: '',
 })
 
 export const SetHomeMode = (mode) => ({
