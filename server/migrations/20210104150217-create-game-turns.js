@@ -14,7 +14,9 @@ module.exports = {
         references: {
             model: 'games',
             key: 'id'
-        }
+        },
+        allowNull: false,
+        onDelete: 'cascade',
       },
       turn: {
         type: Sequelize.INTEGER,

@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
                key: 'id',
             },
             allowNull: false,
+            onDelete: 'cascade'
          },
          turn: DataTypes.INTEGER,
          player: DataTypes.INTEGER,
