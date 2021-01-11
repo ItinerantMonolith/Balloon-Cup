@@ -75,6 +75,15 @@ const myStyles = makeStyles({
       height: '90%',
       margin: 'auto',
    },
+   undl: {
+       textDecoration: 'underline'
+   },
+   pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    height: '32px',
+ },
 })
 
 export default myStyles

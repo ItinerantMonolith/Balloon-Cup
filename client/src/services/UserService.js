@@ -89,3 +89,14 @@ export const __CheckSession = async () => {
       throw err
    }
 }
+
+
+export const __GetUserHistory = async ( playerId ) => {
+    try {
+        const res = await ApiClient.get(`/user/history/${playerId}` )
+        return res.data
+    }
+    catch (err) {
+        throw err
+    }
+}

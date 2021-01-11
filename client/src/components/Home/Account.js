@@ -4,6 +4,7 @@ import { FormControl, Grid } from '@material-ui/core'
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
 import UpdateName from './UpdateName'
 import UpdatePassword from './UpdatePassword'
+import History from './History'
 
 import myStyles from '../../styles/myStyles'
 
@@ -12,31 +13,53 @@ const mapStateToProps = ({ userState }) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-   return {
-   }
+   return {}
 }
 
 function Account(props) {
-   const [action, setAction] = useState('name')
+   const [action, setAction] = useState('history')
    const styles = myStyles()
 
    const handleToggleButton = (event, value) => {
-       console.log ( 'toggle', value)
       setAction(value)
    }
 
+   const content = () => {
+      switch (action) {
+         case 'name':
+            return <UpdateName />
+
+         case 'password':
+            return <UpdatePassword />
+
+         case 'history':
+            return <History />
+
+         default:
+            return <div>NOTHING</div>
+      }
+   }
    return (
       <div>
-         <Grid container justify="center" style={{ margin: '20px' }}>
-            <FormControl className="flex-col">
-               <div className={`${styles.defaultText} ${styles.size2}`}>
-                  Account Settings
-               </div>
+         <Grid
+            container
+            direction="column"
+            justify="center"
+            alignContent="center"
+            style={{ margin: '20px' }}
+         >
+            <div className={`${styles.defaultText} ${styles.size2}`}>
+               Account Information
+            </div>
+            <div className={`${styles.defaultText}`}>
                <ToggleButtonGroup
                   value={action}
                   onChange={handleToggleButton}
                   exclusive
                >
+                  <ToggleButton value="history" aria-label="centered">
+                     <div className={styles.defaultText}>Game History</div>
+                  </ToggleButton>
                   <ToggleButton value="name" aria-label="centered">
                      <div className={styles.defaultText}>Update Name</div>
                   </ToggleButton>
@@ -44,17 +67,13 @@ function Account(props) {
                      <div className={styles.defaultText}>Update Password</div>
                   </ToggleButton>
                </ToggleButtonGroup>
-               {action === 'name' ? (
-                   <UpdateName />
-                   ) : (
-                  <UpdatePassword />
-               )}
-               {props.userState.formError ? (
-                  <p style={{ color: 'red' }}>Error updating Password</p>
-               ) : (
-                  <p></p>
-               )}
-            </FormControl>
+            </div>
+            {content()}
+            {props.userState.formError ? (
+               <p style={{ color: 'red' }}>Error updating Password</p>
+            ) : (
+               <p></p>
+            )}
          </Grid>
       </div>
    )

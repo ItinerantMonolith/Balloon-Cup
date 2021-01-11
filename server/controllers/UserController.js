@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Game } = require('../models')
 
 require('dotenv').config()
 const saltRounds = parseInt(process.env.SALT_ROUNDS)
@@ -22,7 +22,7 @@ const Login = async (req, resp, next) => {
          const payload = {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
          }
          resp.locals.payload = payload
          return next()
@@ -53,7 +53,7 @@ const CreateUser = async (req, resp, next) => {
       const payload = {
          id: user.id,
          name: user.name,
-         email: user.email
+         email: user.email,
       }
       resp.locals.payload = payload
 
@@ -101,7 +101,7 @@ const UpdateName = async (req, resp, next) => {
       const payload = {
          id: userData.id,
          name: userData.name,
-         email: userData.email
+         email: userData.email,
       }
       resp.locals.payload = payload
       return next()
@@ -111,10 +111,40 @@ const UpdateName = async (req, resp, next) => {
    }
 }
 
+const GetPlayerHistory = async (req, resp) => {
+   try {
+      const res = await User.findOne({
+         where: {
+            id: req.params.player_id,
+         },
+         include: [
+            {
+               model: Game,
+               as: 'player0',
+               attributes: ['status', 'winner', 'updatedAt'],
+               include: [{ model: User, as: 'player1', attributes: [ 'id', 'name'] }],
+            },
+            {
+               model: Game,
+               as: 'player1',
+               attributes: ['status', 'winner', 'updatedAt'],
+               include: [{ model: User, as: 'player0', attributes: ['id','name'] }],
+            },
+         ],
+         attributes: ['id', 'name'],
+      })
+      return resp.send(res)
+   } catch (err) {
+      console.log('Error in UserController.GetPlayerHistory', err)
+      throw err
+   }
+}
+
 module.exports = {
    Login,
    CreateUser,
    RefreshSession,
    UpdatePassword,
-   UpdateName
+   UpdateName,
+   GetPlayerHistory,
 }

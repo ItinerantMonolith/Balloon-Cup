@@ -1,16 +1,7 @@
 import React, { useState } from 'react'
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { Pagination } from '@material-ui/lab'
 import myStyles from '../styles/myStyles'
-
-const ruleStyles = makeStyles({
-   pagination: {
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100%',
-      height: '32px',
-   },
-})
 
 const ruleText = [
    {
@@ -232,7 +223,6 @@ const ruleText = [
 
 const Rules = (props) => {
    const [page, setPage] = useState(1)
-   const ruleStyle = ruleStyles()
    const styles = myStyles()
 
    return (
@@ -257,7 +247,7 @@ const Rules = (props) => {
                   {ruleText[page - 1].text}
                </div>
             </div>
-            <div className={ruleStyle.pagination}>
+            <div className={styles.pagination}>
                <Pagination
                   onChange={(event, page) => setPage(page)}
                   defaultPage={1}
