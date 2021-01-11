@@ -7,7 +7,7 @@ body {
     background-size: cover;
     /* background: paleturquoise; */
     padding-top: 30px;
-
+    min-width: 1400px;
 }
 
 .blink_me {
