@@ -157,13 +157,14 @@ class Game {
 
       this.setValidPlays()
       this.gameActions.push('New Game Created')
-
-      this.initSockets()
    }
 
    processTurn(gameTurn, playerId) {
       this.gameActions = []
       this.playerActions = [[], []]
+
+      console.log ('received game turn from ', playerId)
+      console.log ( gameTurn)
 
       this.gameActions.push(`Results of turn #${this.gameTurn}`)
 
