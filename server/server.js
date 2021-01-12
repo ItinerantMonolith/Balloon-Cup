@@ -17,7 +17,7 @@ const app = express()
 const server = http.createServer(app)
 const options = {
 
-} // revisit this +==
+} 
 const io = socketIo(server, options)
 
 

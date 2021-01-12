@@ -217,7 +217,9 @@ class Game {
          )
          //          check to see if trophies can be earned (for both players)
          if (this.checkForTrophies(winner)) {
-            this.checkForTrophies(this.otherPlayer(winner))
+            if ( this.checkForTrophies(this.otherPlayer(winner)) )
+                this.checkForTrophies(winner)
+                
             if (this.checkForVictory()) {
                return
             }
@@ -316,6 +318,9 @@ class Game {
                   // need to use wild card cubes
                   let diff =
                      trophy.cost - this.players[playerId].cubes[trophy.color]
+                  // remove the cubes
+                  this.players[playerId].cubes[trophy.color] = 0 
+
                   // walk the wild cards until the price is paid
                   for (let j = 0; j < 5; j++) {
                      if (wildCards[j] > 0) {
