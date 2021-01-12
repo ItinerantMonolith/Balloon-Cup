@@ -34,8 +34,8 @@ function History(props) {
                status:
                   e.status === 'COMPLETE'
                      ? e.winner === 0
-                        ? 'WINNER'
-                        : 'LOSER'
+                        ? 'WON'
+                        : 'LOST'
                      : 'IN PROGRESS',
             })
          })
