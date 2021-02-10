@@ -65,15 +65,23 @@ class Game {
    }
 
    initSockets() {
-      // we listen on game_turn for the clients to send us their turns.
+      // we listen on game_action for the clients to send us their turns.
       this.sockets[0].on('game_action', (gameAction) => {
-         if (gameAction.action === 'Turn') this.processTurn(gameAction.data, 0)
-         else if (gameAction.action === 'Concede') this.concede(0)
+         if (gameAction.action === 'Turn') {
+             this.processTurn(gameAction.data, 0)
+         }
+         else if (gameAction.action === 'Concede') {
+             this.concede(0)
+         }
       })
 
       this.sockets[1].on('game_action', (gameAction) => {
-         if (gameAction.action === 'Turn') this.processTurn(gameAction.data, 1)
-         else if (gameAction.action === 'Concede') this.concede(1)
+         if (gameAction.action === 'Turn') {
+             this.processTurn(gameAction.data, 1)
+         }
+         else if (gameAction.action === 'Concede') {
+             this.concede(1)
+         }
       })
    }
 

@@ -39,7 +39,8 @@ class GameManager {
       const player = {
          id: socket.handshake.query.userId,
          socket: socket,
-         status: 'WAITING',
+         status: 'LOBBY',
+         autoAccept: false,
          game: null,
       }
 
@@ -52,8 +53,29 @@ class GameManager {
          this.disconnectPlayer(socket)
       })
 
-      this.players.forEach((e) => console.log(e.id))
-      this.checkForPair()
+      // listen for lobby messages from this player
+      socket.on('lobby', (lobbyAction) => this.handleLobbyMsg(socket, lobbyAction) )
+
+      // announce to the lobby that this person has joined? +==
+      // send an ack back to the player that they've joined the lobby ( getInfo? )
+
+      this.players.forEach((e) => console.log(e.id, e.status))
+    //   this.checkForPair()
+   }
+
+   handleLobbyMsg = ( socket, action ) => {
+       // actions always have type, may have other elements
+       // valid message actions are:
+       // { type: 'getInfo'}
+       //       return everyone in the lobby
+       // { type: 'challenge', player: <playerId> }
+       //       request a game against playerId
+       // { type: 'say', text: <msg> }
+       //       chat in the lobby text
+       // { type: 'whisper', text: '<msg>', player: <playerId> }
+       //       send a whisper to this player
+       // { type: 'exit' }
+       //       exit the lobby, disconnect.
    }
 
    checkForPair = async () => {
